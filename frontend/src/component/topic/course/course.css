@@ -1,0 +1,17 @@
+.course-wrapper {
+    padding: 0 20px;
+    margin: 50px 0;
+}
+
+.course-header {
+    padding: 0 50px;
+}
+
+.course-number {
+    font-size: 30px;
+}
+
+.course-all {
+    float: right;
+    font-size: 20px;
+}

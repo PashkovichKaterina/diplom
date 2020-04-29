@@ -1,0 +1,110 @@
+.login-main {
+    background: linear-gradient(180deg, #41467e 0%, #403c5f 100%);
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-block {
+    background-color: #F1F1F1;
+    width: 70%!important;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    padding: 0!important;
+    box-shadow: 19px 20px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+}
+
+.img-klava {
+    width: 100%;
+}
+
+.form-element {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.form-label {
+    display: block;
+    margin: 0;
+    color: #444;
+    font-size: 17px;
+    padding-left: 10px;;
+}
+
+.form-input {
+    border: none;
+    background-color: white;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.1);
+    font-size: 17px;
+}
+
+.auth-header-block {
+    padding: 0 40px;
+    margin: 50px 0;
+}
+
+.auth-button-block {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.auth-button {
+    background-color: #40467d;
+    width: 100%;
+    border: none;
+    padding: 10px 0;
+    border-radius: 2px;
+    color: white;
+    margin: 10px 0 30px 0;
+    font-size: 17px;
+}
+
+.auth-button-cancel {
+    background-color: #999999;
+    width: 100%;
+    border: none;
+    padding: 10px 0;
+    border-radius: 2px;
+    color: white;
+    margin: 10px 0 30px 0;
+    font-size: 17px;
+}
+
+.auth-header {
+    font-size: 23px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.auth-header-active {
+    border-bottom: 2px solid #40467d;
+    color: #40467d;
+    font-size: 23px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.login-image {
+    width: 100%;
+    height: 100%;
+    background-image: url("/klava.png");
+    background-position: center;
+    background-size: cover;
+}
+
+#root{
+    padding: 0;
+    margin: 0;
+}

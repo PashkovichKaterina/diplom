@@ -1,0 +1,32 @@
+.task-wrapper {
+    padding: 20px 130px;
+}
+
+.task-block {
+    background-color: white;
+    padding: 20px 0;
+    box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.task-header {
+    font-size: 25px
+}
+
+.task-question {
+    font-size: 17px;
+}
+
+.task-button {
+    background: linear-gradient(155.04deg, #EB4E55 -0.28%, #FFB351 97.97%);
+    border: none;
+    width: 200px;
+    padding: 5px 0;
+    border-radius: 4px;
+    color: white;
+    margin-top: 25px;
+}
+
+.topic-header {
+    font-size: 30px;
+}
