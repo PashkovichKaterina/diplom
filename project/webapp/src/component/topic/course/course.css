@@ -1,0 +1,25 @@
+.course-wrapper {
+    padding: 0 20px;
+    margin: 50px 0;
+}
+
+.course-header {
+    padding: 0 50px;
+}
+
+.course-number {
+    font-size: 30px;
+}
+
+.course-all-1, .course-all-2, .course-all-3, .course-all-4 {
+    float: right;
+    font-size: 20px;
+    transition: 0.5s;
+}
+
+.course-all-1:hover {
+    color: #EB4E55;
+    cursor: pointer;
+    transition: 0.5s;
+    text-decoration: underline;
+}

@@ -1,0 +1,9 @@
+.option {
+    text-align: center;
+    background-color: white;
+    width: 100%;
+    padding: 20px 0;
+    border-radius: 4px;
+    margin: 5px 0;
+    font-size: 20px;
+}

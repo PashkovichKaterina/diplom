@@ -1,0 +1,137 @@
+.question-wrapper {
+    padding: 0 50px !important;
+}
+
+.question-top-panel {
+    text-align: center;
+    margin: 20px 0 40px 0
+}
+
+.question-close-button {
+    border: none;
+    background: #999;
+    border-radius: 4px;
+    color: white;
+    width: 100px;
+    padding: 5px 0;
+    font-size: 17px
+}
+
+.question-progress-panel {
+    width: 100%;
+}
+
+.question-progress-panel[value] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+}
+
+.question-progress-panel[value]::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+.question-progress-panel[value]::-webkit-progress-value {
+    background-color: #66CC66;
+    /*background-color: #CC3333;*/
+    border-radius: 4px;
+}
+
+.question-header {
+    font-size: 25px;
+}
+
+.question-topic-header {
+    font-size: 20px;
+    color: #666
+}
+
+.question-block {
+    background: linear-gradient(155.04deg, #EB4E55 -0.28%, #FFB351 97.97%);
+    height: 300px;
+    border-radius: 4px;
+}
+
+.question-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0);
+    font-weight: bold;
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.result-panel-button {
+    border: none;
+    background: #66CC66;
+    color: white;
+    width: 150px;
+    padding: 5px 0;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+.result-panel {
+    border-top: 3px solid #ccc;
+    margin-top: 50px;
+    padding: 25px 15%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.correct-answer-back {
+    background: rgba(102, 204, 102, 0.2);
+}
+
+.wrong-answer-back {
+    background: rgba(204, 51, 51, 0.2);
+}
+
+.result-panel-correct-answer {
+    color: #66CC66;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.result-panel-wrong-answer {
+    color: #CC3333;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.answer-message {
+    color: #CC3333;
+    font-size: 20px;
+    text-align: left;
+}
+
+.give-answer {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+}
+
+.give-answer-label {
+    font-size: 20px;
+    color: #666;
+}
+
+.answer {
+    background-color: white;
+    padding: 20px;
+    margin: 5px 0;
+    border-radius: 4px;
+    font-size: 17px;
+}
