@@ -12,7 +12,8 @@ class Course extends React.PureComponent {
         const topicList = topics.map(topic =>
             <Topic key={topic.id}
                    title={topic.title}
-                   courseNumber={courseNumber}/>
+                   courseNumber={courseNumber}
+                   taskCount={topic.tasks.length}/>
         );
         const className = `course-all-${courseNumber}`;
         const moreButton = isMore && <span className={className}>Смотреть все &#8250;</span>;
