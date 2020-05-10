@@ -1,6 +1,6 @@
 import React from 'react';
 import "../authentication/authentication.css"
-import i from "../../image/i.png";
+import welcomeImage from "../../image/welcome.png";
 import RedirectLogic from "../../service/RedirectLogic";
 
 class MainPage extends React.PureComponent {
@@ -23,7 +23,7 @@ class MainPage extends React.PureComponent {
                             <button className="main-button" onClick={this.handleBegin}>Начать</button>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">
-                            <img src={i} className="auth-image"/>
+                            <img src={welcomeImage} className="auth-image"/>
                         </div>
                     </div>
                 </div>

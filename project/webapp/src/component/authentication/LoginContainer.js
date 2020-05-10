@@ -4,13 +4,10 @@ import InputElement from "./InputElement";
 import AuthenticationHeader from "./AuthenticationHeader";
 import AuthenticationButton from "./AuthenticationButton";
 import FormValidator from "../../service/FormValidator";
-import im from "../../image/reg.png";
-import i from "../../image/i.png";
+import authImage from "../../image/auth.png";
 import AuthenticationService from "../../service/AuthenticationService";
 import AuthorizationLogic from "../../service/AuthorizationLogic";
 import RedirectLogic from "../../service/RedirectLogic";
-import Util from "../../service/Util";
-import Message from "../../service/Message";
 
 class LoginContainer extends React.PureComponent {
     constructor(props) {
@@ -80,7 +77,7 @@ class LoginContainer extends React.PureComponent {
                             </form>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">
-                            <img src={i} className="auth-image"/>
+                            <img src={authImage} className="auth-image"/>
                         </div>
                     </div>
                 </div>

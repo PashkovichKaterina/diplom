@@ -51,6 +51,32 @@ ul.right-nav li {
     cursor: pointer;
 }
 
+.error-page {
+    height: 100vh;
+}
+
+.error-page-image {
+    width: 60%;
+}
+
+.error-page-header {
+    font-size: 35px;
+    color: #40467d;
+}
+.error-page-message{
+    font-size: 20px;
+    margin: 20px 0 40px;
+}
+
+.error-page-button {
+    color: white;
+    background: #40467d;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
 #root {
     position: relative;
     min-height: 100vh;

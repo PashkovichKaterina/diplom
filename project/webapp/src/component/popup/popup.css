@@ -1,0 +1,26 @@
+.result-popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+.result-popup-wrapper{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+}
+.result-popup-task-title{
+    font-size: 25px;
+}
+.result-popup-topic-title{
+    font-size: 20px;
+}

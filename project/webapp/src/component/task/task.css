@@ -7,6 +7,7 @@
     padding: 20px 0;
     box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
+    margin: 0!important;
 }
 
 .task-header {
@@ -28,5 +29,9 @@
 }
 
 .topic-header {
+    padding: 0 130px;
     font-size: 30px;
+}
+.task-image{
+    width: 50%;
 }

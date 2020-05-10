@@ -1,6 +1,6 @@
 import React from 'react';
 import "./course.css"
-import Topic from "../Topic";
+import Topic from "../topic/Topic";
 
 class Course extends React.PureComponent {
     constructor(props) {
@@ -11,6 +11,7 @@ class Course extends React.PureComponent {
         const {topics, isMore, courseNumber} = this.props;
         const topicList = topics.map(topic =>
             <Topic key={topic.id}
+                   id={topic.id}
                    title={topic.title}
                    courseNumber={courseNumber}
                    taskCount={topic.tasks.length}/>

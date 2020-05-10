@@ -3,10 +3,11 @@ import "../question.css"
 
 class GiveAnswerPanel extends React.PureComponent {
     render() {
+        const {value,onChange} = this.props;
         return (
             <div>
                 <div className="give-answer-label">Введите ответ:</div>
-                <input className="give-answer"/>
+                <input className="give-answer" value={value} onChange={onChange}/>
             </div>
         )
     }

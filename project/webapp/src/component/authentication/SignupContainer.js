@@ -1,6 +1,6 @@
 import React from 'react';
 import "./authentication.css"
-import im from "../../image/reg.png"
+import authImage from "../../image/auth.png"
 import AuthenticationHeader from "./AuthenticationHeader";
 import AuthenticationButton from "./AuthenticationButton";
 import InputElement from "./InputElement";
@@ -46,13 +46,13 @@ class SignupContainer extends React.PureComponent {
             })
             .then((json) => {
                 if (!this.state.isShowPopup) {
-                    AuthenticationService.login(user)
+                    /*AuthenticationService.login(user)
                         .then(response => response.json())
                         .then(json => {
                             AuthorizationLogic.setAccessToken(json.accessToken);
                             AuthorizationLogic.setRefreshToken(json.refreshToken);
                             RedirectLogic.redirectToTopics();
-                        })
+                        })*/
                 } else {
                     this.setState({errorCode: json.errorCode});
                 }
@@ -133,7 +133,7 @@ class SignupContainer extends React.PureComponent {
                             </form>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">
-                            <img src={im} className="auth-image"/>
+                            <img src={authImage} className="auth-image"/>
                         </div>
                     </div>
                 </div>

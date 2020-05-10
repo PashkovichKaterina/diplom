@@ -1,9 +1,9 @@
 import React from 'react';
-import SearchPanel from "./search/SearchPanel";
+import SearchPanel from "../search/SearchPanel";
 import Footer from "../general/Footer";
 import Header from "../general/Header";
 import TopicService from "../../service/TopicService";
-import Course from "./course/Course";
+import Course from "../course/Course";
 import PaginationLogic from "../../service/PaginationLogic";
 import Topic from "./Topic";
 
@@ -71,7 +71,8 @@ class TopicsContainer extends React.PureComponent {
             searchedTopicList.map(topic =>
                 <Topic key={topic.id}
                        title={topic.title}
-                       courseNumber={topic.courseNumber}/>
+                       courseNumber={topic.courseNumber}
+                       taskCount={topic.tasks.length}/>
             );
         const topicContent = (searchValue && searchedTopics)
             ? <div className="container course-wrapper">

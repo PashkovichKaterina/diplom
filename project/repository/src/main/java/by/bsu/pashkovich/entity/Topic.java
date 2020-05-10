@@ -4,6 +4,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "topics")
@@ -20,6 +21,13 @@ public class Topic {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
+    @OneToMany
+    @JoinTable(name = "lnk_topics_tasks",
+            joinColumns = {@JoinColumn(name = "task_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "topic_id", referencedColumnName = "id")}
+    )
+    private List<Task> tasks;
+
     public Topic() {
     }
 
@@ -35,6 +43,10 @@ public class Topic {
         return course;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -45,5 +57,9 @@ public class Topic {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

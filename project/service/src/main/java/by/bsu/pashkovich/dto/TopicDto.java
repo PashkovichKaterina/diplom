@@ -2,11 +2,14 @@ package by.bsu.pashkovich.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class TopicDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private String title;
     private Long courseNumber;
+    private List<TaskDto> tasks;
 
     public TopicDto() {
     }
@@ -23,6 +26,10 @@ public class TopicDto {
         return courseNumber;
     }
 
+    public void setTasks(List<TaskDto> tasks) {
+        this.tasks = tasks;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -33,5 +40,9 @@ public class TopicDto {
 
     public void setCourseNumber(Long courseNumber) {
         this.courseNumber = courseNumber;
+    }
+
+    public List<TaskDto> getTasks() {
+        return tasks;
     }
 }
