@@ -3,7 +3,7 @@ import "../authentication/authentication.css"
 import welcomeImage from "../../image/welcome.png";
 import RedirectLogic from "../../service/RedirectLogic";
 
-class MainPage extends React.PureComponent {
+class MainPageContainer extends React.PureComponent {
     handleBegin = () => {
         RedirectLogic.redirectToLogin();
     };
@@ -32,4 +32,4 @@ class MainPage extends React.PureComponent {
     }
 }
 
-export default MainPage;
+export default MainPageContainer;

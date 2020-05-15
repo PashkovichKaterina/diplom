@@ -22,7 +22,8 @@
     text-align: center;
     padding: 0 10px;
 }
-.topic-footer{
+
+.topic-footer {
     padding: 10px 15px;
 }
 
@@ -79,4 +80,9 @@
 
 .course-4:before {
     background: linear-gradient(154.77deg, #EB5757 -5.33%, #BB6BD9 141.96%);
+}
+
+.status-icon {
+    float: right;
+    font-size: 20px;
 }

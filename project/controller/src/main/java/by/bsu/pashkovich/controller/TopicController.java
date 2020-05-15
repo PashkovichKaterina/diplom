@@ -1,18 +1,10 @@
 package by.bsu.pashkovich.controller;
 
-import by.bsu.pashkovich.convertion.QuestionConverter;
 import by.bsu.pashkovich.convertion.TopicConverter;
+import by.bsu.pashkovich.dto.PageDto;
 import by.bsu.pashkovich.dto.PageRequest;
 import by.bsu.pashkovich.dto.TopicDto;
-import by.bsu.pashkovich.dto.question.ChooseQuestionDto;
-import by.bsu.pashkovich.dto.question.QuestionDto;
-import by.bsu.pashkovich.entity.Course;
-import by.bsu.pashkovich.entity.Task;
 import by.bsu.pashkovich.entity.Topic;
-import by.bsu.pashkovich.entity.question.ChooseQuestion;
-import by.bsu.pashkovich.entity.question.Question;
-import by.bsu.pashkovich.repository.TaskRepository;
-import by.bsu.pashkovich.repository.TopicRepository;
 import by.bsu.pashkovich.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,10 +44,10 @@ public class TopicController {
         } else {
             int page = Integer.parseInt(pageRequest.getPage());
             int perPage = Integer.parseInt(pageRequest.getSize());
-            Page<Topic> topicPage = topicService.getTopicsByCourse(course, page, perPage);
+            PageDto<TopicDto> topicPage = topicService.getTopicsByCourse(course, page, perPage);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("Link", getLinkHead(topicPage));
-            topics = topicConverter.toTopicDtoList(topicPage.getContent());
+            topics = topicPage.getElements();
             return new ResponseEntity<>(topics, headers, HttpStatus.OK);
         }
     }
@@ -71,11 +63,11 @@ public class TopicController {
         return new ResponseEntity<>(topicService.getTopicTask(taskId), HttpStatus.OK);
     }
 
-    private String getLinkHead(Page page) {
+    private String getLinkHead(PageDto page) {
         String result = getLink(1, page.getSize(), "first");
         result += "," + getLink(page.getTotalPages(), page.getSize(), "last");
-        result += page.hasNext() ? "," + getLink((page.getNumber() + 1), page.getSize(), "next") : "";
-        result += page.hasPrevious() ? "," + getLink((page.getNumber() - 1), page.getSize(), "prev") : "";
+        result += page.hasNext() ? "," + getLink((page.next()), page.getSize(), "next") : "";
+        result += page.hasPrevious() ? "," + getLink((page.previous()), page.getSize(), "prev") : "";
         return result;
     }
 

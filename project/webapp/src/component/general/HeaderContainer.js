@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthorizationLogic from "../../service/AuthorizationLogic";
 import RedirectLogic from "../../service/RedirectLogic";
 
-class Header extends React.PureComponent {
+class HeaderContainer extends React.PureComponent {
     handleLogout = () => {
         AuthorizationLogic.deleteTokens();
         RedirectLogic.redirectToLogin();
@@ -37,4 +37,4 @@ class Header extends React.PureComponent {
     }
 }
 
-export default Header;
+export default HeaderContainer;

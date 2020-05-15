@@ -10,6 +10,7 @@ public class TopicDto {
     private String title;
     private Long courseNumber;
     private List<TaskDto> tasks;
+    private String status;
 
     public TopicDto() {
     }
@@ -24,6 +25,10 @@ public class TopicDto {
 
     public Long getCourseNumber() {
         return courseNumber;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setTasks(List<TaskDto> tasks) {
@@ -44,5 +49,9 @@ public class TopicDto {
 
     public List<TaskDto> getTasks() {
         return tasks;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

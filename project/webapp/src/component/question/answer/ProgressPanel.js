@@ -3,7 +3,7 @@ import "../question.css"
 
 class ProgressPanel extends React.PureComponent {
     render() {
-        const {questionCount, passedQuestionCount} = this.props;
+        const {questionCount, passedQuestionCount, handleCloseTask} = this.props;
         return (
             <div className="row question-top-panel">
                 <div className="col-10 align-self-center">
@@ -13,7 +13,7 @@ class ProgressPanel extends React.PureComponent {
                               className="question-progress-panel"/>
                 </div>
                 <div className="col-2 align-self-center text-right">
-                    <button className="question-close-button">
+                    <button className="question-close-button" onClick={handleCloseTask}>
                         Закончить
                     </button>
                 </div>

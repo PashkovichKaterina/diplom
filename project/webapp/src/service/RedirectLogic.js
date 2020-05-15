@@ -3,6 +3,8 @@ import Util from "./Util";
 const LOGIN_URL = "/login";
 const SIGUP_URL = "/signup";
 const TOPICS_URL = "/topics";
+const MAIN_URL = "/";
+const TOPIC_URL = "/topics/{0}/tasks";
 
 class RedirectLogic {
     redirect(url) {
@@ -14,7 +16,7 @@ class RedirectLogic {
     }
 
     redirectToMainPage() {
-        this.redirect("/");
+        this.redirect(MAIN_URL);
     }
 
     redirectToLogin() {
@@ -29,8 +31,8 @@ class RedirectLogic {
         this.redirect(TOPICS_URL);
     }
 
-    redirectToUnavailableServer() {
-        this.redirect("/unavailable-server");
+    redirectToTopic(topicId) {
+        this.redirect(Util.format(TOPIC_URL, topicId));
     }
 }
 

@@ -1,0 +1,59 @@
+.course-1-background {
+    background: linear-gradient(155.04deg, #EB4E55 -0.28%, #FFB351 97.97%);
+}
+
+.course-1-background:before {
+    background: linear-gradient(155.04deg, #FFB351 -0.28%, #EB4E55 97.97%);
+}
+
+.course-2-background {
+    background: linear-gradient(147.65deg, #4DB861 13.07%, #BDD765 89.58%);
+}
+
+.course-2-background:before {
+    background: linear-gradient(147.65deg, #BDD765 13.07%, #4DB861 89.58%);
+}
+
+.course-3-background {
+    background: linear-gradient(164.52deg, #5451E0 -6.47%, #56E9F2 110.27%);
+}
+
+.course-3-background:before {
+    background: linear-gradient(164.52deg, #56E9F2 -6.47%, #5451E0 110.27%);
+}
+
+.course-4-background {
+    background: linear-gradient(154.77deg, #BB6BD9 -5.33%, #EB5757 141.96%);
+}
+
+.course-4-background:before {
+    background: linear-gradient(154.77deg, #EB5757 -5.33%, #BB6BD9 141.96%);
+}
+
+.correct-answer-color {
+    color: #66CC66;
+}
+
+.wrong-answer-color {
+    color: #CC3333;
+}
+
+.correct-answer-background {
+    background-color: #66CC66;
+}
+
+.wrong-answer-background {
+    background-color: #CC3333;
+}
+
+.pending-status-color{
+    color: #999;
+}
+
+.complete-status-color{
+    color: #66CC66;
+}
+
+.progress-status-color{
+    color: #3d52cc;
+}

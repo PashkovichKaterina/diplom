@@ -1,5 +1,6 @@
 package by.bsu.pashkovich.service;
 
+import by.bsu.pashkovich.dto.PageDto;
 import by.bsu.pashkovich.dto.TaskDto;
 import by.bsu.pashkovich.dto.TopicDto;
 import by.bsu.pashkovich.entity.Topic;
@@ -12,7 +13,7 @@ public interface TopicService {
 
     List<TopicDto> getTopicsByCourse(Long coursesNumber);
 
-    Page<Topic> getTopicsByCourse(Long coursesNumber, int page, int size);
+    PageDto<TopicDto> getTopicsByCourse(Long coursesNumber, int page, int size);
 
     List<TopicDto> getTopicsByTitle(String topicTitle);
 

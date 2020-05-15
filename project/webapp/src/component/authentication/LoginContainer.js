@@ -1,8 +1,8 @@
 import React from 'react';
 import "./authentication.css"
 import InputElement from "./InputElement";
-import AuthenticationHeader from "./AuthenticationHeader";
-import AuthenticationButton from "./AuthenticationButton";
+import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
+import AuthenticationButtonContainer from "./AuthenticationButtonContainer";
 import FormValidator from "../../service/FormValidator";
 import authImage from "../../image/auth.png";
 import AuthenticationService from "../../service/AuthenticationService";
@@ -59,7 +59,7 @@ class LoginContainer extends React.PureComponent {
                 <div className="container-fluid login-block">
                     <div className="row m-auto">
                         <div className="col-lg-6 text-center">
-                            <AuthenticationHeader active="login"/>
+                            <AuthenticationHeaderContainer active="login"/>
                             <form className="align-self-center"
                                   onSubmit={this.handleSubmit}>
                                 <InputElement type="text"
@@ -72,8 +72,8 @@ class LoginContainer extends React.PureComponent {
                                               value={password}
                                               isValid={true}
                                               onChange={this.handleChange}/>
-                                <AuthenticationButton type="login"
-                                                      isSubmitEnable={FormValidator.isValidLoginForm(login, password)}/>
+                                <AuthenticationButtonContainer type="login"
+                                                               isSubmitEnable={FormValidator.isValidLoginForm(login, password)}/>
                             </form>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">

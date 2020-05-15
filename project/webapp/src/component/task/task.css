@@ -35,3 +35,7 @@
 .task-image{
     width: 50%;
 }
+.task-status-message{
+    font-weight: bold;
+    margin: 10px 0;
+}

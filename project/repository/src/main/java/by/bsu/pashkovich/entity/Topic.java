@@ -23,8 +23,8 @@ public class Topic {
 
     @OneToMany
     @JoinTable(name = "lnk_topics_tasks",
-            joinColumns = {@JoinColumn(name = "task_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "topic_id", referencedColumnName = "id")}
+            joinColumns = {@JoinColumn(name = "topic_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "task_id", referencedColumnName = "id")}
     )
     private List<Task> tasks;
 

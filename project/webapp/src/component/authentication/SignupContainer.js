@@ -1,8 +1,8 @@
 import React from 'react';
 import "./authentication.css"
 import authImage from "../../image/auth.png"
-import AuthenticationHeader from "./AuthenticationHeader";
-import AuthenticationButton from "./AuthenticationButton";
+import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
+import AuthenticationButtonContainer from "./AuthenticationButtonContainer";
 import InputElement from "./InputElement";
 import FormValidator from "../../service/FormValidator";
 import AuthenticationService from "../../service/AuthenticationService";
@@ -103,7 +103,7 @@ class SignupContainer extends React.PureComponent {
                 <div className="container-fluid login-block">
                     <div className="row m-auto">
                         <div className="col-lg-6 text-center">
-                            <AuthenticationHeader active="signup"/>
+                            <AuthenticationHeaderContainer active="signup"/>
                             <form className="align-self-center"
                                   onSubmit={this.handleSubmitSignupForm}
                                   onKeyDown={this.handleKeyDown}>
@@ -127,9 +127,9 @@ class SignupContainer extends React.PureComponent {
                                               value={confirmPassword}
                                               isValid={isValidConfirmPassword}
                                               onChange={this.handleChange}/>
-                                <AuthenticationButton type="signup"
-                                                      isSubmitEnable={FormValidator.isValidSignupForm(login, email, password, confirmPassword)}
-                                                      errorMessage={Message.getString(errorCode)}/>
+                                <AuthenticationButtonContainer type="signup"
+                                                               isSubmitEnable={FormValidator.isValidSignupForm(login, email, password, confirmPassword)}
+                                                               errorMessage={Message.getString(errorCode)}/>
                             </form>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">

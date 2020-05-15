@@ -82,3 +82,11 @@ ul.right-nav li {
     min-height: 100vh;
     padding-bottom: 200px;
 }
+
+a{
+    color: white!important;
+}
+a:hover{
+    color: white;;
+    text-decoration: none!important;
+}

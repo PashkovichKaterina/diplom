@@ -1,6 +1,6 @@
 import React from 'react';
 import "./profile.css"
-import Header from "../general/Header";
+import HeaderContainer from "../general/HeaderContainer";
 import userPng from "../../image/user.png"
 import Footer from "../general/Footer";
 
@@ -8,7 +8,7 @@ class Profile extends React.PureComponent {
     render() {
         return (
             <div>
-                <Header/>
+                <HeaderContainer/>
                 <div className="container">
                     <div className="profile-card">
                         <div className="row">

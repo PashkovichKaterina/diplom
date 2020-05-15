@@ -1,7 +1,10 @@
 import React from 'react';
 import "../question.css"
-import completePng from "./../../..//image/complete.png"
-import wrongPng from "./../../../image/wrong.png"
+import "../../../style/color.css"
+import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
+import {faClock} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class ResultPanel extends React.PureComponent {
     render() {
@@ -11,33 +14,33 @@ class ResultPanel extends React.PureComponent {
         let buttonText = "Проверить";
         let answerText;
         let answerClass;
-        let image;
+        let icon;
         switch (answerStatus) {
             case true:
                 panelClass = "correct-answer-back";
                 answerText = "Правильный ответ";
-                answerClass = "result-panel-correct-answer";
+                answerClass = "correct-answer-color";
                 buttonClass = "result-panel-correct-button";
-                image = completePng;
                 buttonText = "Дальше";
+                icon = <FontAwesomeIcon icon={faCheckCircle} className="result-icon correct-answer-color"/>;
                 break;
             case false:
                 panelClass = "wrong-answer-back";
                 answerText = "Неправильный ответ";
-                answerClass = "result-panel-wrong-answer";
+                answerClass = "wrong-answer-color";
                 buttonClass = "result-panel-wrong-button";
-                image = wrongPng;
                 buttonText = "Дальше";
+                icon = <FontAwesomeIcon icon={faTimesCircle} className="result-icon wrong-answer-color"/>;
                 break;
         }
-        const answerMessageElement = <div className={answerClass}>{answerText}</div>
-        const errorMessage = correctAnswer && <div className="answer-message">Правильный ответ: {correctAnswer}</div>
+        const answerMessageElement = <div className={`${answerClass}`}>{answerText}</div>
+        const errorMessage = correctAnswer && <div className={`answer-message ${answerClass}`}>Правильный ответ: {correctAnswer}</div>
         return (
             <div className={`result-panel ${panelClass}`}>
                 <div className="container question-wrapper">
                     <div className="row">
                         <div className="col-2 align-self-center text-center">
-                            <img src={image} className="w-50"/>
+                            {icon}
                         </div>
                         <div className="col-6 align-self-center">
                             {answerMessageElement}
@@ -60,38 +63,6 @@ class ResultPanel extends React.PureComponent {
                     </div>
                 </div>
             </div>
-            /*<div className="result-panel correct-answer-back">
-                <div className="container question-wrapper">
-                    <div className="row">
-                        <div className="col-2 align-self-center text-center">
-                            <img src={completePng} className="w-50"/>
-                        </div>
-                        <div className="col-6 align-self-center result-panel-correct-answer">
-                            Правильный ответ
-                        </div>
-                        <div className="col-4 align-self-center">
-                            <input type="button" className="result-panel-button" value="Проверить"/>
-                        </div>
-                    </div>
-                </div>
-            </div>*/
-
-            /*<div className="result-panel wrong-answer-back ">
-                <div className="container question-wrapper">
-                    <div className="row">
-                        <div className="col-2 align-self-center text-center">
-                            <img src={wrongPng} className="w-50"/>
-                        </div>
-                        <div className="col-6 align-self-center">
-                            <div className="result-panel-wrong-answer">Неправильный ответ</div>
-                            <div className="answer-message">Правильный ответ: answer</div>
-                        </div>
-                        <div className="col-4 align-self-center">
-                            <input type="button" className="result-panel-button" value="Проверить"/>
-                        </div>
-                    </div>
-                </div>
-            </div>*/
         )
     }
 }

@@ -1,12 +1,12 @@
 import React from "react";
-import MatchQuestion from "./MatchQuestion";
-import ChooseQuestion from "./ChooseQuestion";
-import AnswerQuestion from "./AnswerQuestion";
+import MatchQuestionContainer from "./MatchQuestionContainer";
+import ChooseQuestionContainer from "./ChooseQuestionContainer";
+import AnswerQuestionContainer from "./AnswerQuestionContainer";
 
 const QuestionType = {
-    "MATCH": <MatchQuestion/>,
-    "CHOOSE": <ChooseQuestion/>,
-    "ANSWER": <AnswerQuestion/>
+    "MATCH": <MatchQuestionContainer/>,
+    "CHOOSE": <ChooseQuestionContainer/>,
+    "ANSWER": <AnswerQuestionContainer/>
 };
 
 export default QuestionType;

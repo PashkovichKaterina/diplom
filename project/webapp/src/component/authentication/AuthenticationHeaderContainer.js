@@ -2,12 +2,13 @@ import React from 'react';
 import "./authentication.css"
 import RedirectLogic from "../../service/RedirectLogic";
 
-class AuthenticationHeader extends React.PureComponent {
+class AuthenticationHeaderContainer extends React.PureComponent {
     handleLoginRedirect = () => {
         if (this.props.active !== "login") {
             RedirectLogic.redirectToLogin();
         }
     };
+
     handleSignupRedirect = () => {
         if (this.props.active !== "signup") {
             RedirectLogic.redirectToSignup();
@@ -33,4 +34,4 @@ class AuthenticationHeader extends React.PureComponent {
     }
 }
 
-export default AuthenticationHeader;
+export default AuthenticationHeaderContainer;

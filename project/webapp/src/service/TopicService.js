@@ -1,9 +1,11 @@
 import AuthorizationLogic from "./AuthorizationLogic";
 
+const PORT = "http://localhost:3000";
+
 class TopicService {
     getAllTopicsByCourseNumber(courseNumber) {
         AuthorizationLogic.checkToken();
-        return fetch("english2c/topics?course=" + courseNumber, {
+        return fetch(PORT + "/english2c/topics?course=" + courseNumber, {
             method: "GET",
             headers: new Headers({
                 'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
@@ -13,7 +15,7 @@ class TopicService {
 
     getTopicsByCourseNumber(courseNumber) {
         AuthorizationLogic.checkToken();
-        return fetch("http://localhost:3000/english2c/topics?course=" + courseNumber + "&page=1&size=6", {
+        return fetch(PORT + "/english2c/topics?course=" + courseNumber + "&page=1&size=6", {
             method: "GET",
             headers: new Headers({
                 'Content-Type': 'application/json',
@@ -24,7 +26,7 @@ class TopicService {
 
     getTopicsByTitle(topicTitle) {
         AuthorizationLogic.checkToken();
-        return fetch("english2c/topics?topicTitle=" + topicTitle, {
+        return fetch(PORT + "/english2c/topics?topicTitle=" + topicTitle, {
             method: "GET",
             headers: new Headers({
                 'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
@@ -34,7 +36,7 @@ class TopicService {
 
     getTopicsById(topicId) {
         AuthorizationLogic.checkToken();
-        return fetch("http://localhost:3000/english2c/topics/" + topicId, {
+        return fetch(PORT + "/english2c/topics/" + topicId, {
             method: "GET",
             headers: new Headers({
                 'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
@@ -44,7 +46,7 @@ class TopicService {
 
     getTopicTask(topicId, taskId) {
         AuthorizationLogic.checkToken();
-        return fetch("http://localhost:3000/english2c/topics/" + topicId + "/tasks/" + taskId, {
+        return fetch(PORT + "/english2c/topics/" + topicId + "/tasks/" + taskId, {
             method: "GET",
             headers: new Headers({
                 'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()

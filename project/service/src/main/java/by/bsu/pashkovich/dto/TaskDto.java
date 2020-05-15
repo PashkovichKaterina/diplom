@@ -12,6 +12,7 @@ public class TaskDto {
     private String title;
     private TaskType type;
     private List<QuestionDto> questions;
+    private String status;
 
     public TaskDto() {
     }
@@ -32,6 +33,10 @@ public class TaskDto {
         return questions;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -46,5 +51,9 @@ public class TaskDto {
 
     public void setQuestions(List<QuestionDto> questions) {
         this.questions = questions;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import "./task.css"
-import Header from "../general/Header";
+import HeaderContainer from "../general/HeaderContainer";
 import Footer from "../general/Footer";
 import TopicService from "../../service/TopicService";
-import Task from "./Task";
+import TaskContainer from "./TaskContainer";
 
-class Tasks extends React.PureComponent {
+class TasksContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,17 +29,18 @@ class Tasks extends React.PureComponent {
         const topicId = this.props.match.params.id;
         const taskList = tasks &&
             tasks.map(task =>
-                <Task key={task.id}
-                      id={task.id}
-                      title={task.title}
-                      type={task.type}
-                      topicId={topicId}
-                      courseNumber={courseNumber}
-                      questionCount={task.questions.length}/>
+                <TaskContainer key={task.id}
+                               id={task.id}
+                               title={task.title}
+                               type={task.type}
+                               topicId={topicId}
+                               courseNumber={courseNumber}
+                               questionCount={task.questions.length}
+                               status={task.status}/>
             );
         return (
             <div>
-                <Header/>
+                <HeaderContainer/>
                 <div className="container mt-5 mb-5">
                     <p className="topic-header">{topicTitle.toUpperCase()}</p>
                     {taskList}
@@ -50,4 +51,4 @@ class Tasks extends React.PureComponent {
     }
 }
 
-export default Tasks;
+export default TasksContainer;

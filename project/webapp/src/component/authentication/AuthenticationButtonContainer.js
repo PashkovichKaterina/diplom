@@ -1,9 +1,8 @@
 import React from 'react';
 import "./authentication.css"
-import Message from "../../service/Message";
 import RedirectLogic from "../../service/RedirectLogic";
 
-class AuthenticationButton extends React.PureComponent {
+class AuthenticationButtonContainer extends React.PureComponent {
     handleCancel = () => {
         RedirectLogic.redirectToMainPage();
     };
@@ -30,4 +29,4 @@ class AuthenticationButton extends React.PureComponent {
     }
 }
 
-export default AuthenticationButton;
+export default AuthenticationButtonContainer;
