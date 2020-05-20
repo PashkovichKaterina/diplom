@@ -21,7 +21,7 @@ public class Score {
     private LocalDateTime passageDate;
 
     @Column
-    private Integer value;
+    private Double value;
 
     public Score() {
     }
@@ -35,7 +35,7 @@ public class Score {
         return passageDate;
     }
 
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 
@@ -43,7 +43,7 @@ public class Score {
         this.passageDate = passageDate;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

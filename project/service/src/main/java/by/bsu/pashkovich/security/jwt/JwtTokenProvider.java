@@ -44,18 +44,20 @@ public class JwtTokenProvider {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public String getAccessToken(Long id, String login, String role) {
-        return createToken(id, login, role, accessExpiration);
+    public String getAccessToken(Long id, String login, String role, String name, String surname) {
+        return createToken(id, login, role, name, surname, accessExpiration);
     }
 
-    public String getRefreshToken(Long id, String login, String role) {
-        return createToken(id, login, role, refreshExpiration);
+    public String getRefreshToken(Long id, String login, String role, String name, String surname) {
+        return createToken(id, login, role, name, surname, refreshExpiration);
     }
 
-    private String createToken(Long id, String login, String role, Long expiration) {
+    private String createToken(Long id, String login, String role, String name, String surname, Long expiration) {
         Claims claims = Jwts.claims().setSubject(id.toString());
         claims.put("login", login);
         claims.put("role", role);
+        claims.put("name", name);
+        claims.put("surname", surname);
 
         Date createdJwtDate = new Date();
         Date validityJwtDate = new Date(createdJwtDate.getTime() + expiration);

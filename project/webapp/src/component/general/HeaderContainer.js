@@ -10,12 +10,20 @@ class HeaderContainer extends React.PureComponent {
         RedirectLogic.redirectToLogin();
     };
 
+    handleMainPage = () => {
+        RedirectLogic.redirectToMainPage();
+    };
+
+    handleProfileRedirect = () => {
+        RedirectLogic.redirectToUserProfile();
+    };
+
     render() {
         const {isMain} = this.props;
         return (
             <header
                 className={isMain ? "container-fluid d-table text-right main" : "container-fluid d-table text-right ba"}>
-                <div className="d-inline float-left site-title">English2C</div>
+                <div className="d-inline float-left site-title" onClick={this.handleMainPage}>English2C</div>
                 <ul className="right-nav d-inline">
                     <li><a href="/topics">Темы</a></li>
                     <li>
@@ -26,7 +34,7 @@ class HeaderContainer extends React.PureComponent {
                                 <FontAwesomeIcon icon={faUser}/> {AuthorizationLogic.getUserLogin()}
                             </button>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="/users/1">Личный кабинет</a>
+                                <a className="dropdown-item" onClick={this.handleProfileRedirect}>Личный кабинет</a>
                                 <a className="dropdown-item" onClick={this.handleLogout}>Выйти</a>
                             </div>
                         </div>

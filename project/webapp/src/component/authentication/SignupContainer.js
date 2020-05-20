@@ -1,15 +1,15 @@
 import React from 'react';
 import "./authentication.css"
 import authImage from "../../image/auth.png"
-import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
-import AuthenticationButtonContainer from "./AuthenticationButtonContainer";
 import InputElement from "./InputElement";
-import FormValidator from "../../service/FormValidator";
-import AuthenticationService from "../../service/AuthenticationService";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
-import RedirectLogic from "../../service/RedirectLogic";
+import AuthenticationButton from "./AuthenticationButton";
 import Util from "../../service/Util";
 import Message from "../../service/Message";
+import FormValidator from "../../service/FormValidator";
+import RedirectLogic from "../../service/RedirectLogic";
+import AuthorizationLogic from "../../service/AuthorizationLogic";
+import AuthenticationService from "../../service/AuthenticationService";
+import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
 
 class SignupContainer extends React.PureComponent {
     constructor(props) {
@@ -39,20 +39,21 @@ class SignupContainer extends React.PureComponent {
             email: this.state.email,
             password: this.state.password
         };
+        let isSuccessSignup;
         AuthenticationService.signup(user)
             .then(response => {
-                this.setState({isShowPopup: !response.ok});
+                isSuccessSignup = response.ok;
                 return response.json();
             })
             .then((json) => {
-                if (!this.state.isShowPopup) {
-                    /*AuthenticationService.login(user)
+                if (isSuccessSignup) {
+                    AuthenticationService.login(user)
                         .then(response => response.json())
                         .then(json => {
                             AuthorizationLogic.setAccessToken(json.accessToken);
                             AuthorizationLogic.setRefreshToken(json.refreshToken);
-                            RedirectLogic.redirectToTopics();
-                        })*/
+                            RedirectLogic.redirectToEditStudentForm();
+                        })
                 } else {
                     this.setState({errorCode: json.errorCode});
                 }
@@ -92,6 +93,10 @@ class SignupContainer extends React.PureComponent {
         this.setState({[field]: isValidField});
     }
 
+    handleCancelClick = () => {
+        RedirectLogic.redirectToMainPage();
+    };
+
     render() {
         const {
             login, email, password, confirmPassword, isValidLogin, isValidEmail, isValidPassword,
@@ -127,9 +132,12 @@ class SignupContainer extends React.PureComponent {
                                               value={confirmPassword}
                                               isValid={isValidConfirmPassword}
                                               onChange={this.handleChange}/>
-                                <AuthenticationButtonContainer type="signup"
-                                                               isSubmitEnable={FormValidator.isValidSignupForm(login, email, password, confirmPassword)}
-                                                               errorMessage={Message.getString(errorCode)}/>
+                                <AuthenticationButton type="signup"
+                                                      submitButtonContent="Регистрация"
+                                                      cancelButtonContent="Отмена"
+                                                      handleCancelClick={this.handleCancelClick}
+                                                      isSubmitEnable={FormValidator.isValidSignupForm(login, email, password, confirmPassword)}
+                                                      errorMessage={Message.getString(errorCode)}/>
                             </form>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">

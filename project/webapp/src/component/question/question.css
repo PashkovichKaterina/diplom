@@ -35,7 +35,6 @@
 
 .question-progress-panel[value]::-webkit-progress-value {
     background-color: #66CC66;
-    /*background-color: #CC3333;*/
     border-radius: 4px;
 }
 
@@ -49,7 +48,6 @@
 }
 
 .question-block {
-    background: linear-gradient(155.04deg, #EB4E55 -0.28%, #FFB351 97.97%);
     height: 300px;
     border-radius: 4px;
 }
@@ -75,10 +73,6 @@
     padding: 5px 0;
     font-size: 20px;
     border-radius: 4px;
-}
-
-.result-panel-button {
-    background: linear-gradient(155.04deg, #EB4E55 -0.28%, #FFB351 97.97%);
 }
 
 .result-panel-button:disabled {
@@ -123,12 +117,24 @@
     text-align: left;
 }
 
+.answer-header {
+    font-weight: bold;
+    font-size: 25px;
+}
+
 .give-answer {
     width: 100%;
     background: none;
     border: none;
-    border-bottom: 1px solid black;
     font-size: 20px;
+    background: white;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 2px 0 18px rgba(0, 0, 0, 0.1);
+}
+
+.answer-block {
+    padding: 10px 0 20px;
 }
 
 .give-answer-label {
@@ -171,6 +177,5 @@
 }
 
 .result-icon {
-    color: #CC3333;
     font-size: 50px;
 }

@@ -104,7 +104,12 @@
     padding: 0;
     margin: 0;
 }
-
+.student-form-header{
+    font-size: 23px;
+    font-weight: bold;
+    padding: 0;
+    margin: 20px 0;
+}
 .auth-header:hover {
     cursor: pointer;
 }

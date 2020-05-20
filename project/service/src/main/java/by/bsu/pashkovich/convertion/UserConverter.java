@@ -1,6 +1,7 @@
 package by.bsu.pashkovich.convertion;
 
 import by.bsu.pashkovich.dto.UserDto;
+import by.bsu.pashkovich.entity.user.Student;
 import by.bsu.pashkovich.entity.user.User;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,11 @@ public class UserConverter {
             user.setLogin(userDto.getLogin());
             user.setEmail(userDto.getEmail());
             user.setPassword(userDto.getPassword());
+            if (userDto.getName() != null || userDto.getSurname() != null) {
+                Student student = new Student(user);
+                student.setName(userDto.getName());
+                student.setSurname(userDto.getSurname());
+            }
         }
         return user;
     }
@@ -28,6 +34,10 @@ public class UserConverter {
             userDto.setLogin(user.getLogin());
             userDto.setEmail(user.getEmail());
             userDto.setPassword(user.getPassword());
+            if (user.getClass() == Student.class) {
+                userDto.setName(((Student) user).getName());
+                userDto.setSurname(((Student) user).getSurname());
+            }
         }
         return userDto;
     }

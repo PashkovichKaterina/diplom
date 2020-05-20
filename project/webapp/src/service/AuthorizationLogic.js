@@ -1,8 +1,9 @@
 import jwt_decode from "jwt-decode";
 
+const PORT = "http://localhost:3000";
 const ACCESS_TOKEN = "accessToken";
 const REFRESH_TOKEN = "refreshToken";
-const REFRESH_TOKEN_URL = "english2C/refreshToken";
+const REFRESH_TOKEN_URL = PORT + "/english2C/refreshToken";
 
 class AuthorizationLogic {
     isUserLogin() {
@@ -28,7 +29,6 @@ class AuthorizationLogic {
     }
 
     deleteTokens() {
-        console.log("remove");
         localStorage.removeItem(ACCESS_TOKEN);
         localStorage.removeItem(REFRESH_TOKEN);
     }
@@ -55,6 +55,24 @@ class AuthorizationLogic {
         }
     }
 
+    getStudentName() {
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        if (token) {
+            return jwt_decode(token).name;
+        }
+    }
+
+    getStudentSurname() {
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        if (token) {
+            return jwt_decode(token).surname;
+        }
+    }
+
+    isStudentDataFill() {
+        return this.getStudentName() && this.getStudentSurname();
+    }
+
     isValidToken() {
         const token = localStorage.getItem(ACCESS_TOKEN);
         if (token) {
@@ -64,24 +82,41 @@ class AuthorizationLogic {
     }
 
     checkToken() {
+        let promise;
         if (!this.isValidToken()) {
-            this.refreshToken();
+            promise = this.refreshToken();
+        } else {
+            promise = new Promise((resolve) => {
+                resolve();
+            })
         }
+        return promise;
     }
 
     refreshToken() {
+        const accessToken = this.getAccessToken();
+        const refreshToken = this.getRefreshToken();
+        const userId = this.getUserId();
+        console.log(JSON.stringify({
+            "userId": Number(userId),
+            "accessToken": accessToken,
+            "refreshToken": refreshToken
+        }));
+        this.deleteTokens();
         return fetch(REFRESH_TOKEN_URL, {
             method: "POST",
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            }),
             body: JSON.stringify({
-                ACCESS_TOKEN: this.getAccessToken(),
-                REFRESH_TOKEN: this.getRefreshToken()
+                "userId": Number(userId),
+                "accessToken": accessToken,
+                "refreshToken": refreshToken
             })
         })
             .then(response => {
-                if (!response.ok) {
-                    this.deleteTokens();
-                } else {
-                    return response.json;
+                if (response.ok) {
+                    return response.json();
                 }
             })
             .then(json => {

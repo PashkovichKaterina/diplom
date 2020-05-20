@@ -2,19 +2,21 @@ import React from 'react';
 import "./authentication.css"
 import InputElement from "./InputElement";
 import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
-import AuthenticationButtonContainer from "./AuthenticationButtonContainer";
+import AuthenticationButton from "./AuthenticationButton";
 import FormValidator from "../../service/FormValidator";
 import authImage from "../../image/auth.png";
 import AuthenticationService from "../../service/AuthenticationService";
 import AuthorizationLogic from "../../service/AuthorizationLogic";
 import RedirectLogic from "../../service/RedirectLogic";
+import Message from "../../service/Message";
 
 class LoginContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             login: "",
-            password: ""
+            password: "",
+            isSuccessLogin: true
         };
     }
 
@@ -33,26 +35,28 @@ class LoginContainer extends React.PureComponent {
         };
         AuthenticationService.login(user)
             .then(response => {
-                this.setState({isShowPopup: !response.ok});
+                this.setState({isSuccessLogin: response.ok});
                 return response.json()
             })
             .then(json => {
-                if (!this.state.isShowPopup) {
+                if (this.state.isSuccessLogin) {
                     AuthorizationLogic.setAccessToken(json.accessToken);
                     AuthorizationLogic.setRefreshToken(json.refreshToken);
-                } else {
-                    this.setState({errorCode: json.errorCode});
                 }
             })
             .then(() => {
-                if (!this.state.isShowPopup) {
+                if (this.state.isSuccessLogin) {
                     RedirectLogic.redirectToTopics();
                 }
             });
     };
 
+    handleCancelClick = () => {
+        RedirectLogic.redirectToMainPage();
+    };
+
     render() {
-        const {login, password} = this.state;
+        const {login, password, isSuccessLogin} = this.state;
         document.getElementById("root").style.padding = '0';
         return (
             <main className="login-main">
@@ -72,8 +76,12 @@ class LoginContainer extends React.PureComponent {
                                               value={password}
                                               isValid={true}
                                               onChange={this.handleChange}/>
-                                <AuthenticationButtonContainer type="login"
-                                                               isSubmitEnable={FormValidator.isValidLoginForm(login, password)}/>
+                                <AuthenticationButton type="login"
+                                                      submitButtonContent="Вход"
+                                                      cancelButtonContent="Отмена"
+                                                      handleCancelClick={this.handleCancelClick}
+                                                      isSubmitEnable={FormValidator.isValidLoginForm(login, password)}
+                                                      errorMessage={!isSuccessLogin && Message.getString("authenticationException")}/>
                             </form>
                         </div>
                         <div className="col-lg-6 p-0 align-self-center text-center">

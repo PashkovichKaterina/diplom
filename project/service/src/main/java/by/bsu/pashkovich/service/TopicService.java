@@ -18,4 +18,6 @@ public interface TopicService {
     List<TopicDto> getTopicsByTitle(String topicTitle);
 
     TaskDto getTopicTask(Long taskId);
+
+    List<TopicDto> getInProgressTopics(Long userId);
 }

@@ -15,7 +15,7 @@ class TasksContainer extends React.PureComponent {
 
     componentDidMount() {
         const topicId = this.props.match.params.id;
-        TopicService.getTopicsById(topicId)
+        TopicService.getTopicById(topicId)
             .then(response => response.json())
             .then(json => this.setState({
                 topicTitle: json.title,
@@ -36,13 +36,14 @@ class TasksContainer extends React.PureComponent {
                                topicId={topicId}
                                courseNumber={courseNumber}
                                questionCount={task.questions.length}
-                               status={task.status}/>
+                               status={task.status}
+                               value={task.value}/>
             );
         return (
             <div>
                 <HeaderContainer/>
                 <div className="container mt-5 mb-5">
-                    <p className="topic-header">{topicTitle.toUpperCase()}</p>
+                    <p className="topic-header">{topicTitle&&topicTitle.toUpperCase()}</p>
                     {taskList}
                 </div>
                 <Footer/>

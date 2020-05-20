@@ -4,12 +4,15 @@ import TopicService from "../../service/TopicService";
 import MatchQuestionContainer from "./MatchQuestionContainer";
 import ChooseQuestionContainer from "./ChooseQuestionContainer";
 import AnswerQuestionContainer from "./AnswerQuestionContainer";
-import InformPopup from "../popup/InformPopup";
 import ProgressPanel from "./answer/ProgressPanel";
 import QuestionHeader from "./QuestionHeader";
-import FinishTaskPopup from "../popup/FinishTaskPopup";
+import CloseTaskPopup from "../popup/CloseTaskPopup";
 import ResultLogic from "../../service/ResultLogic";
 import RedirectLogic from "../../service/RedirectLogic";
+
+import ResultPopup from "../popup/ResultPopup";
+import AuthorizationLogic from "../../service/AuthorizationLogic";
+import EmptyDataPopup from "../popup/EmptyDataPopup";
 import ScoreService from "../../service/ScoreService";
 
 class QuestionContainer extends React.PureComponent {
@@ -23,57 +26,85 @@ class QuestionContainer extends React.PureComponent {
     }
 
     componentDidMount() {
+        if (AuthorizationLogic.isStudentDataFill()) {
+            const topicId = this.props.match.params.topicId;
+            const taskId = this.props.match.params.taskId;
+            TopicService.getTopicById(topicId)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    } else {
+                        RedirectLogic.redirectToTopics();
+                    }
+                })
+                .then(json => {
+                    if (json) {
+                        this.setState({
+                            topicTitle: json.title,
+                            courseNumber: json.courseNumber,
+                        });
+                        return json.tasks;
+                    }
+                })
+                .then(tasks => {
+                    if (tasks) {
+                        const currentTask = tasks.filter(task => task.id == taskId);
+                        if (currentTask && currentTask.length > 0 && currentTask[0].status === "pending") {
+                            this.setState({
+                                questionType: currentTask[0].type,
+                                questionStatus: currentTask[0].status,
+                                questionTitle: currentTask[0].title,
+                                questionCount: currentTask[0].questions.length,
+                                questions: currentTask[0].questions
+                            });
+                            ScoreService.saveUserResult(topicId, taskId, null);
+                            window.addEventListener('beforeunload', this.handleLeavePage);
+                            window.addEventListener('beforeunload', this.finishTask);
+                        } else {
+                            RedirectLogic.redirectToTopic(topicId);
+                        }
+                    }
+                });
+        } else {
+            this.setState({isShowEmptyDataPopup: true});
+        }
+    }
+
+    handleCloseEmptyDataPopup = () => {
         const topicId = this.props.match.params.topicId;
-        const taskId = this.props.match.params.taskId;
-        TopicService.getTopicTask(topicId, taskId)
-            .then(response => response.json())
-            .then(json => this.setState({
-                questionType: json.type,
-                questionStatus: json.status,
-                questionTitle: json.title,
-                questionCount: json.questions.length,
-                questions: json.questions,
-            }, () => this.setQuestionContent()));
+        RedirectLogic.redirectToTopic(topicId);
+    };
 
-        TopicService.getTopicsById(topicId)
-            .then(response => response.json())
-            .then(json => this.setState({
-                topicTitle: json.title,
-                courseNumber: json.courseNumber
-            }));
-    }
-
-    setQuestionContent() {
-        const {questionStatus} = this.state;
-        const questionContent = questionStatus !== "pending"
-            ? this.getPopup()
-            : this.getQuestionElement();
-        this.setState({questionContent: questionContent});
-    }
-
-    getPopup() {
-        return <InformPopup status="scd"/>
+    handleLeavePage(event) {
+        const confirmationMessage = 'Some message';
+        event.returnValue = confirmationMessage;
+        return confirmationMessage;
     }
 
     getQuestionElement() {
-        const {questionType, questions} = this.state;
+        const {questionType, questions, courseNumber} = this.state;
         let questionElement;
         switch (questionType) {
             case "MATCH":
                 questionElement = <MatchQuestionContainer {...this.props}
                                                           questions={questions}
+                                                          showFinishPopup={this.showFinishPopup}
                                                           increaseWrongAnswerCount={this.increaseWrongAnswerCount}
                                                           increasePassedQuestionCount={this.increasePassedQuestionCount}/>;
                 break;
             case "CHOOSE":
                 questionElement = <ChooseQuestionContainer {...this.props}
                                                            questions={questions}
+                                                           courseNumber={courseNumber}
+                                                           showFinishPopup={this.showFinishPopup}
                                                            increaseCorrectAnswerCount={this.increaseCorrectAnswerCount}
                                                            increasePassedQuestionCount={this.increasePassedQuestionCount}/>;
                 break;
             case "ANSWER":
                 questionElement = <AnswerQuestionContainer {...this.props}
                                                            questions={questions}
+                                                           courseNumber={courseNumber}
+                                                           showFinishPopup={this.showFinishPopup}
                                                            increaseCorrectAnswerCount={this.increaseCorrectAnswerCount}
                                                            increasePassedQuestionCount={this.increasePassedQuestionCount}/>;
                 break;
@@ -100,14 +131,19 @@ class QuestionContainer extends React.PureComponent {
     };
 
     handleCloseTask = () => {
-        this.setState({isShowFinishTaskPopup: true})
+        this.setState({isShowCloseTaskPopup: true})
     };
 
     handleCancelCloseTask = () => {
-        this.setState({isShowFinishTaskPopup: false})
+        this.setState({isShowCloseTaskPopup: false})
+    };
+
+    handleProfileRedirect = () => {
+        RedirectLogic.redirectToUserProfile();
     };
 
     finishTask = () => {
+        window.removeEventListener('beforeunload', this.handleLeavePage);
         const topicId = Number(this.props.match.params.topicId);
         const taskId = Number(this.props.match.params.taskId);
         const value = Number(this.getCurrentResult());
@@ -122,27 +158,53 @@ class QuestionContainer extends React.PureComponent {
             : ResultLogic.calculateResultOfCorrectAnswer(correctAnswerCount, questionCount)
     }
 
+    showFinishPopup = () => {
+        this.setState({isShowFinishTaskPopup: true});
+    };
+
     render() {
-        const {
-            questionContent, questionCount, passedQuestionCount, topicTitle, questionTitle, questionType,
-            isShowFinishTaskPopup, correctAnswerCount, wrongAnswerCount
+        let {
+            questionCount, passedQuestionCount, topicTitle, questionTitle, questionType, courseNumber,
+            isShowFinishTaskPopup, isShowCloseTaskPopup, wrongAnswerCount, correctAnswerCount, isShowEmptyDataPopup
         } = this.state;
+        if (questionType === "MATCH") {
+            correctAnswerCount = null;
+        } else {
+            wrongAnswerCount = null;
+        }
+        const emptyDataPopup = isShowEmptyDataPopup &&
+            <EmptyDataPopup handleFillInForm={this.handleProfileRedirect}
+                            handleSkipClick={this.handleCloseEmptyDataPopup}/>;
+
+        const closePopup = isShowCloseTaskPopup &&
+            <CloseTaskPopup handleCancelCloseTask={this.handleCancelCloseTask}
+                            currentResult={this.getCurrentResult()}
+                            finishTask={this.finishTask}/>;
         const finishPopup = isShowFinishTaskPopup &&
-            <FinishTaskPopup handleCancelCloseTask={this.handleCancelCloseTask}
-                             currentResult={this.getCurrentResult()}
-                             handleCancelCloseTask={this.handleCancelCloseTask}
-                             finishTask={this.finishTask}/>;
+            <ResultPopup topicTitle={topicTitle}
+                         questionTitle={questionTitle}
+                         questionCount={questionCount}
+                         courseNumber={courseNumber}
+                         wrongAnswerCount={wrongAnswerCount}
+                         correctAnswerCount={correctAnswerCount}
+                         handleTaskFinish={this.finishTask}/>;
+        const progressPanel = this.getQuestionElement() &&
+            <ProgressPanel questionCount={questionCount}
+                           passedQuestionCount={passedQuestionCount}
+                           handleCloseTask={this.handleCloseTask}/>;
+        const questionHeader = this.getQuestionElement() &&
+            <QuestionHeader topicTitle={topicTitle}
+                            questionTitle={questionTitle}
+                            questionType={questionType}/>;
         return (
             <div>
+                {emptyDataPopup}
+                {closePopup}
                 {finishPopup}
                 <div className="container question-wrapper">
-                    <ProgressPanel questionCount={questionCount}
-                                   passedQuestionCount={passedQuestionCount}
-                                   handleCloseTask={this.handleCloseTask}/>
-                    <QuestionHeader topicTitle={topicTitle}
-                                    questionTitle={questionTitle}
-                                    questionType={questionType}/>
-                    {questionContent}
+                    {progressPanel}
+                    {questionHeader}
+                    {this.getQuestionElement()}
                 </div>
             </div>
         )

@@ -3,9 +3,9 @@ import {Route} from 'react-router-dom';
 import AuthorizationLogic from "../../service/AuthorizationLogic";
 import RedirectLogic from "../../service/RedirectLogic";
 
-const NonAuthenticationRoute = ({component: Component}) => {
+const NonAuthenticationRoute = ({component: Component, path: path}) => {
     return (
-        <Route render={props => (
+        <Route path={path} render={props => (
             AuthorizationLogic.isStudentLogin()
                 ? RedirectLogic.redirectToTopics()
                 : <Component {...props} />

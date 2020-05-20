@@ -20,4 +20,7 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
 
     @Query("select topic from Topic topic where upper(topic.title) like concat('%', upper(:topicTitle), '%') order by topic.course")
     List<Topic> getTopicsByTitle(@Param("topicTitle") String topicTitle);
+
+    @Query(value = "select distinct id, title, course_id from topics inner join scores on scores.topic_id = topics.id where user_id = :userId", nativeQuery = true)
+    List<Topic> getInProgressTopics(@Param("userId") Long userId);
 }

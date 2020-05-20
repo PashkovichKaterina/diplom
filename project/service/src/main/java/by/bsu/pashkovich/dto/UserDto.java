@@ -7,7 +7,11 @@ public class UserDto {
     private Long id;
     private String login;
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    private String name;
+    private String surname;
+
 
     public UserDto() {
 
@@ -29,6 +33,14 @@ public class UserDto {
         return password;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -43,6 +55,14 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

@@ -34,7 +34,7 @@ class ChooseQuestionContainer extends React.PureComponent {
     };
 
     handleResultPanelButtonClick = () => {
-        const {increasePassedQuestionCount, increaseCorrectAnswerCount} = this.props;
+        const {increasePassedQuestionCount, increaseCorrectAnswerCount, showFinishPopup} = this.props;
         const {currentQuestion, questions, chosenElements, isAnswerChecked} = this.state;
         if (!isAnswerChecked) {
             const correctAnswers = currentQuestion.answers
@@ -44,6 +44,10 @@ class ChooseQuestionContainer extends React.PureComponent {
                 correctAnswers
                     .map(answer => answer.title)
                     .join(", ");
+            increasePassedQuestionCount();
+            if (answerStatus) {
+                increaseCorrectAnswerCount();
+            }
             this.setState({
                 answerStatus: answerStatus,
                 correctAnswer: correctAnswer,
@@ -51,21 +55,24 @@ class ChooseQuestionContainer extends React.PureComponent {
             })
         } else {
             questions.shift();
-            increasePassedQuestionCount();
-            increaseCorrectAnswerCount();
-            this.setState({
-                currentQuestion: questions.length > 0 ? questions[0] : null,
-                answerStatus: null,
-                correctAnswer: "",
-                chosenElements: [],
-                isAvailableButtonClick: false,
-                isAnswerChecked: false
-            })
+            if (questions.length === 0) {
+                showFinishPopup();
+            } else {
+                this.setState({
+                    currentQuestion: questions[0],
+                    answerStatus: null,
+                    correctAnswer: "",
+                    chosenElements: [],
+                    isAvailableButtonClick: false,
+                    isAnswerChecked: false
+                })
+            }
         }
     };
 
     render() {
         const {chosenElements, currentQuestion, answerStatus, correctAnswer} = this.state;
+        const {courseNumber} = this.props;
         const optionsElement = currentQuestion && currentQuestion.answers.map(answer =>
             <ChooseAnswer key={answer.id}
                           id={answer.id}
@@ -76,12 +83,14 @@ class ChooseQuestionContainer extends React.PureComponent {
         );
         return (
             <div>
-                <QuestionPanel questionTitle={currentQuestion.questionTitle}/>
+                <QuestionPanel questionTitle={currentQuestion.questionTitle}
+                               courseNumber={courseNumber}/>
                 <div className="row">
                     {optionsElement}
                 </div>
                 <ResultPanel answerStatus={answerStatus}
                              correctAnswer={correctAnswer}
+                             courseNumber={courseNumber}
                              isAvailableButtonClick={chosenElements.length > 0}
                              buttonClick={this.handleResultPanelButtonClick}/>
             </div>

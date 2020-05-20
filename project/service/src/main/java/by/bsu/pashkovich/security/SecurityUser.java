@@ -10,14 +10,18 @@ public class SecurityUser implements UserDetails {
     private final String login;
     private final String email;
     private final String password;
+    private final String name;
+    private final String surname;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public SecurityUser(Long id, String login, String email, String password,
+    public SecurityUser(Long id, String login, String email, String password, String name, String surname,
                         Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.login = login;
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.surname = surname;
         this.authorities = authorities;
     }
 

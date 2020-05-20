@@ -16,10 +16,16 @@ class TopicsContainer extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.setTopicList(1);
-        this.setTopicList(2);
-        this.setTopicList(3);
-        this.setTopicList(4);
+        this.setTopicList(1)
+            .then(() => {
+                this.setTopicList(2)
+            })
+            .then(() => {
+                this.setTopicList(3)
+            })
+            .then(() => {
+                this.setTopicList(4)
+            })
     }
 
     setTopicList(courseNumber) {
@@ -27,7 +33,7 @@ class TopicsContainer extends React.PureComponent {
         let lastPage;
         let courseList = `courseList${courseNumber}`;
         let isMore = `isMore${courseNumber}`;
-        TopicService.getTopicsByCourseNumber(courseNumber)
+        return TopicService.getTopicsByCourseNumber(courseNumber)
             .then(response => {
                 const linkHeader = response.headers.get("link");
                 const pageInfo = PaginationLogic.getPageInfoFromLinkHeader(linkHeader);
@@ -51,19 +57,19 @@ class TopicsContainer extends React.PureComponent {
 
     render() {
         const {courseList1, courseList2, courseList3, courseList4, isMore1, isMore2, isMore3, isMore4, searchValue, searchedTopicList} = this.state;
-        const courses1 = courseList1 &&
+        const courses1 = (courseList1 && courseList1.length > 0) &&
             <Course courseNumber={1}
                     topics={courseList1}
                     isMore={isMore1}/>;
-        const courses2 = courseList2 &&
+        const courses2 = (courseList2 && courseList2.length > 0) &&
             <Course courseNumber={2}
                     topics={courseList2}
                     isMore={isMore2}/>;
-        const courses3 = courseList3 &&
+        const courses3 = (courseList3 && courseList3.length > 0 ) &&
             <Course courseNumber={3}
                     topics={courseList3}
                     isMore={isMore3}/>;
-        const courses4 = courseList4 &&
+        const courses4 = (courseList4 && courseList4.length > 0) &&
             <Course courseNumber={4}
                     topics={courseList4}
                     isMore={isMore4}/>;
@@ -87,7 +93,6 @@ class TopicsContainer extends React.PureComponent {
                 {courses3}
                 {courses4}
             </div>;
-
         return (
             <div>
                 <HeaderContainer isMain={true}/>

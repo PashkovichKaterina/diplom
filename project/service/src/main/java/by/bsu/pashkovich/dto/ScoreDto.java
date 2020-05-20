@@ -3,7 +3,7 @@ package by.bsu.pashkovich.dto;
 public class ScoreDto {
     private Long topicId;
     private Long taskId;
-    private Integer value;
+    private Double value;
 
     public ScoreDto() {
     }
@@ -16,7 +16,7 @@ public class ScoreDto {
         return taskId;
     }
 
-    public Integer getValue() {
+    public Double getValue() {
         return value;
     }
 
@@ -24,7 +24,7 @@ public class ScoreDto {
         this.topicId = topicId;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

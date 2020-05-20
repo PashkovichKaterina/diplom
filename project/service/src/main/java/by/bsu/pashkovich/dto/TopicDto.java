@@ -10,6 +10,7 @@ public class TopicDto {
     private String title;
     private Long courseNumber;
     private List<TaskDto> tasks;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String status;
 
     public TopicDto() {

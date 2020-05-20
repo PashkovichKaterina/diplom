@@ -26,11 +26,15 @@ class AnswerQuestionContainer extends React.PureComponent {
     };
 
     handleResultPanelButtonClick = () => {
-        const {increasePassedQuestionCount, increaseCorrectAnswerCount} = this.props;
+        const {increasePassedQuestionCount, increaseCorrectAnswerCount, showFinishPopup} = this.props;
         const {currentQuestion, answer, questions, answerStatus, isAnswerChecked} = this.state;
         if (!isAnswerChecked) {
             const answerStatus = ResultLogic.isValidPrintedAnswer(answer, currentQuestion.correctAnswer);
             const correctAnswer = !answerStatus && currentQuestion.correctAnswer;
+            increasePassedQuestionCount();
+            if (answerStatus) {
+                increaseCorrectAnswerCount();
+            }
             this.setState({
                 answerStatus: answerStatus,
                 correctAnswer: correctAnswer,
@@ -38,30 +42,33 @@ class AnswerQuestionContainer extends React.PureComponent {
             })
         } else {
             questions.shift();
-            increasePassedQuestionCount();
-            if (answerStatus) {
-                increaseCorrectAnswerCount();
+            if (questions.length === 0) {
+                showFinishPopup();
+            } else {
+                this.setState({
+                    currentQuestion: questions[0],
+                    answerStatus: null,
+                    answer: "",
+                    correctAnswer: "",
+                    isAvailableButtonClick: false,
+                    isAnswerChecked: false
+                })
             }
-            this.setState({
-                currentQuestion: questions.length > 0 ? questions[0] : null,
-                answerStatus: null,
-                answer: "",
-                correctAnswer: "",
-                isAvailableButtonClick: false,
-                isAnswerChecked: false
-            })
         }
     };
 
     render() {
         const {currentQuestion, answer, answerStatus, isAvailableButtonClick, correctAnswer} = this.state;
+        const {courseNumber} = this.props;
         return (
             <div>
-                <QuestionPanel questionTitle={currentQuestion.questionTitle}/>
+                <QuestionPanel questionTitle={currentQuestion.questionTitle}
+                               courseNumber={courseNumber}/>
                 <GiveAnswerPanel value={answer}
                                  onChange={this.handleAnswerInput}/>
                 <ResultPanel answerStatus={answerStatus}
                              correctAnswer={correctAnswer}
+                             courseNumber={courseNumber}
                              isAvailableButtonClick={isAvailableButtonClick}
                              buttonClick={this.handleResultPanelButtonClick}/>
             </div>

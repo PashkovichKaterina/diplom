@@ -12,7 +12,9 @@ public class TaskDto {
     private String title;
     private TaskType type;
     private List<QuestionDto> questions;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String status;
+    private Double value;
 
     public TaskDto() {
     }
@@ -37,6 +39,10 @@ public class TaskDto {
         return status;
     }
 
+    public Double getValue() {
+        return value;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -55,5 +61,9 @@ public class TaskDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
     }
 }

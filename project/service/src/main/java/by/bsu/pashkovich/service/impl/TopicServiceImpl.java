@@ -9,6 +9,7 @@ import by.bsu.pashkovich.dto.TaskDto;
 import by.bsu.pashkovich.dto.TopicDto;
 import by.bsu.pashkovich.dto.question.ChooseQuestionAnswerDto;
 import by.bsu.pashkovich.dto.question.ChooseQuestionDto;
+import by.bsu.pashkovich.dto.question.QuestionDto;
 import by.bsu.pashkovich.entity.Task;
 import by.bsu.pashkovich.entity.Topic;
 import by.bsu.pashkovich.entity.question.ChooseQuestionAnswer;
@@ -24,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -59,7 +61,10 @@ public class TopicServiceImpl implements TopicService {
         Topic foundTopic = topicRepository.findById(id)
                 .orElseThrow(() -> new NoSuchEntityException(""));
         TopicDto foundTopicDto = topicConverter.toTopicDto(foundTopic);
-        return getTopicStatus(foundTopicDto);
+        setTopicStatus(foundTopicDto);
+        List<TaskDto> taskDtoList = foundTopicDto.getTasks().stream().peek(this::setAnswers).collect(Collectors.toList());
+        foundTopicDto.setTasks(taskDtoList);
+        return foundTopicDto;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class TopicServiceImpl implements TopicService {
         }
         List<Topic> foundTopicList = topicRepository.getTopicsByCourse(coursesNumber);
         List<TopicDto> foundTopicDtoList = topicConverter.toTopicDtoList(foundTopicList);
-        return getTopicsStatus(foundTopicDtoList);
+        return setTopicsStatus(foundTopicDtoList);
     }
 
     @Override
@@ -79,48 +84,65 @@ public class TopicServiceImpl implements TopicService {
         }
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Topic> foundedTopicPage = topicRepository.getTopicsByCourse(coursesNumber, pageable);
-        PageDto<TopicDto> p = pageConverter.toPageDto(foundedTopicPage);
-        p.setElements(getTopicsStatus(topicConverter.toTopicDtoList(foundedTopicPage.getContent())));
-        return p;
+        PageDto<TopicDto> pageDto = pageConverter.toPageDto(foundedTopicPage);
+        List<TopicDto> topicDtoList = topicConverter.toTopicDtoList(foundedTopicPage.getContent());
+        pageDto.setElements(setTopicsStatus(topicDtoList));
+        return pageDto;
     }
 
     @Override
     public List<TopicDto> getTopicsByTitle(String topicTitle) {
         List<Topic> topicList = topicRepository.getTopicsByTitle(topicTitle);
         List<TopicDto> foundTopicDtoList = topicConverter.toTopicDtoList(topicList);
-        return getTopicsStatus(foundTopicDtoList);
+        return setTopicsStatus(foundTopicDtoList);
     }
 
     @Override
     public TaskDto getTopicTask(Long taskId) {
         Task foundTask = taskRepository.getTaskByIdAndTopicId(taskId);
         TaskDto foundTaskDto = taskConverter.toTaskDto(foundTask);
-        if (foundTaskDto.getQuestions() != null && foundTaskDto.getQuestions().get(0) instanceof ChooseQuestionDto) {
-            foundTaskDto.getQuestions()
-                    .forEach(questionDto -> {
+        setAnswers(foundTaskDto);
+        setTaskStatus(foundTaskDto);
+        return foundTaskDto;
+    }
+
+    @Override
+    public List<TopicDto> getInProgressTopics(Long userId) {
+        List<Topic> foundTopics = topicRepository.getInProgressTopics(userId);
+        return setTopicsStatus(topicConverter.toTopicDtoList(foundTopics));
+    }
+
+    private void setAnswers(TaskDto taskDto) {
+        if (taskDto.getQuestions() != null && taskDto.getQuestions().size() > 0
+                && taskDto.getQuestions().get(0) instanceof ChooseQuestionDto) {
+            taskDto.setQuestions(taskDto.getQuestions().stream()
+                    .peek(questionDto -> {
                         List<ChooseQuestionAnswer> answers = answerRepository.getByQuestionId(questionDto.getId());
                         List<ChooseQuestionAnswerDto> answersDto = answerConverter.toChooseQuestionAnswerDtoList(answers);
                         ((ChooseQuestionDto) questionDto).setAnswers(answersDto);
-                    });
+                    })
+                    .collect(Collectors.toList()));
         }
-        return getTaskStatus(foundTaskDto);
     }
 
-    private List<TopicDto> getTopicsStatus(List<TopicDto> topicDtoList) {
-        topicDtoList.forEach(topicDto -> getTopicStatus(topicDto));
-        return topicDtoList;
+    private List<TopicDto> setTopicsStatus(List<TopicDto> topicDtoList) {
+        return topicDtoList.stream().peek(this::setTopicStatus).collect(Collectors.toList());
     }
 
-    private TopicDto getTopicStatus(TopicDto topicDto) {
+    private void setTopicStatus(TopicDto topicDto) {
         Long userId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         topicDto.setStatus(scoreRepository.getUserStatusByTopic(userId, topicDto.getId()));
-        topicDto.getTasks().forEach(taskDto -> taskDto.setStatus(scoreRepository.getUserStatusByTask(userId, taskDto.getId())));
-        return topicDto;
+        List<TaskDto> taskDtoList = topicDto.getTasks().stream().peek(this::setTaskStatus).collect(Collectors.toList());
+        topicDto.setTasks(taskDtoList);
     }
 
-    private TaskDto getTaskStatus(TaskDto taskDto) {
+    private void setTaskStatus(TaskDto taskDto) {
         Long userId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        taskDto.setStatus(scoreRepository.getUserStatusByTask(userId, taskDto.getId()));
-        return taskDto;
+        String status = scoreRepository.getUserStatusByTask(userId, taskDto.getId());
+        taskDto.setStatus(status);
+        if (status.equalsIgnoreCase("completed")) {
+            Double value = scoreRepository.getScoreByUserAndTask(userId, taskDto.getId()).getValue();
+            taskDto.setValue(value);
+        }
     }
 }

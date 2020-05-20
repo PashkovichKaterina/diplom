@@ -3,14 +3,13 @@ import "../question.css"
 import "../../../style/color.css"
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
-import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class ResultPanel extends React.PureComponent {
     render() {
-        const {answerStatus, isAvailableButtonClick, buttonClick, correctAnswer} = this.props;
+        const {answerStatus, isAvailableButtonClick, buttonClick, correctAnswer, courseNumber} = this.props;
         let panelClass;
-        let buttonClass = "result-panel-button";
+        let buttonClass = `result-panel-button course-${courseNumber}`;
         let buttonText = "Проверить";
         let answerText;
         let answerClass;
@@ -33,8 +32,9 @@ class ResultPanel extends React.PureComponent {
                 icon = <FontAwesomeIcon icon={faTimesCircle} className="result-icon wrong-answer-color"/>;
                 break;
         }
-        const answerMessageElement = <div className={`${answerClass}`}>{answerText}</div>
-        const errorMessage = correctAnswer && <div className={`answer-message ${answerClass}`}>Правильный ответ: {correctAnswer}</div>
+        const answerMessageElement = <div className={`answer-header ${answerClass}`}>{answerText}</div>;
+        const errorMessage = correctAnswer &&
+            <div className={`answer-message ${answerClass}`}>Правильный ответ: {correctAnswer}</div>;
         return (
             <div className={`result-panel ${panelClass}`}>
                 <div className="container question-wrapper">

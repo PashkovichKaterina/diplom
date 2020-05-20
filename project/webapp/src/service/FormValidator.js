@@ -55,6 +55,18 @@ class FormValidator {
     isValidTagTitle(title) {
         return title && title.match(/^\w{1,15}$/);
     }
+
+    isValidPersonalDataForm(name, surname) {
+        return this.isValidName(name) && this.isValidSurname(surname);
+    }
+
+    isValidName(name) {
+        return name && name.match(/^[A-zА-я ]{1,30}$/);
+    }
+
+    isValidSurname(surname) {
+        return surname && surname.match(/^[A-zА-я ]{1,30}$/);
+    }
 }
 
 export default new FormValidator();

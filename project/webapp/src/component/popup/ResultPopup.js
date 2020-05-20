@@ -1,14 +1,15 @@
 import React from 'react';
 import "./popup.css"
+import "../../style/color.css";
 import Util from "../../service/Util";
 import ResultLogic from "../../service/ResultLogic";
 
 const ResultPopup = (props) => {
-    const {topicTitle, questionTitle, questionCount, wrongAnswerCount, correctAnswerCount, handleTaskFinish} = props;
-    const result = correctAnswerCount !== undefined
+    const {topicTitle, questionTitle, questionCount, wrongAnswerCount, correctAnswerCount, handleTaskFinish, courseNumber} = props;
+    const result = correctAnswerCount !== null
         ? ResultLogic.calculateResultOfCorrectAnswer(correctAnswerCount, questionCount)
         : ResultLogic.calculateResultOfWrongAnswer(wrongAnswerCount, questionCount);
-    const resultMessageElement = correctAnswerCount !== undefined
+    const resultMessageElement = correctAnswerCount !== null
         ? <div>Количество правильных ответов: {correctAnswerCount}</div>
         : <div>Количество неправильных ответов: {wrongAnswerCount}</div>;
     return (
@@ -21,7 +22,9 @@ const ResultPopup = (props) => {
                     {resultMessageElement}
                 </div>
                 <div className="result-popup-result">Результат: {result}%</div>
-                <button className="result-popup-button-1" onClick={handleTaskFinish}>Продолжить</button>
+                <button className={`result-popup-button course-${courseNumber}`} onClick={handleTaskFinish}>
+                    Продолжить
+                </button>
             </div>
         </div>
     )

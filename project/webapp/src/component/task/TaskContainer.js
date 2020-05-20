@@ -11,7 +11,7 @@ class TaskContainer extends React.PureComponent {
 
     handleStartTask = () => {
         const {topicId, id} = this.props;
-        RedirectLogic.redirect("/topics/" + topicId + "/tasks/" + id);
+        RedirectLogic.redirectToTask(topicId, id);
     };
 
     componentDidMount() {
@@ -22,19 +22,20 @@ class TaskContainer extends React.PureComponent {
     }
 
     render() {
-        const {title, questionCount, status} = this.props;
+        const {title, questionCount, status, value, courseNumber} = this.props;
         let contentElement;
         switch (status) {
-            case "pending":
-                contentElement = <button className="task-button" onClick={this.handleStartTask}>
-                    Начать
-                </button>;
-                break;
             case "in progress":
                 contentElement = <div className="task-status-message">В процессе</div>
                 break;
             case "completed":
-                contentElement = <div className="task-status-message">Ваш результат: 70%</div>
+                contentElement = <div className="task-status-message">Ваш результат: {value}%</div>
+                break;
+            default:
+                contentElement =
+                    <button className={`task-button course-${courseNumber}`} onClick={this.handleStartTask}>
+                        Начать
+                    </button>;
                 break;
         }
         return (

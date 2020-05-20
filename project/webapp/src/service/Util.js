@@ -24,6 +24,22 @@ class Util {
             [array[i], array[j]] = [array[j], array[i]];
         }
     }
+
+    shuffleArrayByBlock(array, count) {
+        const result = [];
+        let c = 0;
+        while (c * count < array.length) {
+            let ar = [];
+            for (let i = 0; i < count && i < array.length; i++) {
+                ar[i] = array[i + c];
+            }
+            c++;
+            this.shuffleArray(ar);
+            result.push(...ar);
+        }
+        array.length = 0;
+        array.push(...result);
+    }
 }
 
 export default new Util();

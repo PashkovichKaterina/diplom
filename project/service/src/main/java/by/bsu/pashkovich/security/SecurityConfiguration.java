@@ -47,18 +47,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/signup").permitAll()
-                .antMatchers("/topics").permitAll()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/main.jpg").permitAll()
 
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
                 .antMatchers(SIGNUP_ENDPOINT).permitAll()
                 .antMatchers(REFRESH_TOKEN_ENDPOINT).permitAll()
 
-                .anyRequest().authenticated()
+                .antMatchers("/english2C/**").hasRole("USER")
+
+
+                .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(SIGNUP_ENDPOINT).permitAll()
+                .antMatchers(REFRESH_TOKEN_ENDPOINT).permitAll()
+
+                .anyRequest().permitAll()
                 .and()
                 .apply(new JwtFilterManager(jwtTokenProvider));
     }

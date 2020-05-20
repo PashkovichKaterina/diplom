@@ -1,7 +1,7 @@
 import React from 'react';
 import "./popup.css"
 
-const FinishTaskPopup = (props) => {
+const CloseTaskPopup = (props) => {
     const {currentResult, handleCancelCloseTask, finishTask} = props;
     return (
         <div className="result-popup">
@@ -22,4 +22,4 @@ const FinishTaskPopup = (props) => {
     )
 };
 
-export default FinishTaskPopup;
+export default CloseTaskPopup;

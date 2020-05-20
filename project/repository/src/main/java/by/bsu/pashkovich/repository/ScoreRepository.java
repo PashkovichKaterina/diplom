@@ -14,4 +14,7 @@ public interface ScoreRepository extends CrudRepository<Score, ScoreKey> {
 
     @Query(value = "select * from getUserStatusByTopic(:userId, :topicId)", nativeQuery = true)
     String getUserStatusByTopic(@Param("userId") Long userId, @Param("topicId") Long topicId);
+
+    @Query("select score from Score score where scoreKey.user.id = :userId and scoreKey.task.id = :taskId")
+    Score getScoreByUserAndTask(@Param("userId") Long userId, @Param("taskId") Long taskId);
 }

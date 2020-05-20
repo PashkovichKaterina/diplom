@@ -30,7 +30,27 @@
     width: 50%;
 }
 
-.topics-header{
+.topics-header {
     font-size: 25px;
-    padding: 0 10px;
+    margin: 10px 0;
+}
+
+.profile-topic {
+    background-color: white;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.profile-topic-title {
+    font-size: 20px;
+}
+
+.profile-topic-tasks {
+    font-size: 17px;
+}
+
+.profile-topic-result {
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 20px;
 }

@@ -28,7 +28,7 @@ public class MainExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {AuthenticationException.class})
     public ResponseEntity handleAuthenticationException(AuthenticationException e, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse("loginError", "Invalid login or password");
+        ErrorResponse errorResponse = new ErrorResponse("authenticationException", "Invalid login or password");
         return handleExceptionInternal(e, errorResponse, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
     }
 }

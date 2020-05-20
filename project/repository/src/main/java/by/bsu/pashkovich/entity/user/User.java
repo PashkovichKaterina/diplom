@@ -71,6 +71,10 @@ public class User {
         this.password = password;
     }
 
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }

@@ -14,12 +14,9 @@ class MatchQuestionContainer extends React.PureComponent {
             secondPartList: props.questions.map(question => {
                 return {id: question.id, content: question.secondPart}
             })
-        }
-    }
-
-    componentDidMount() {
-        Util.shuffleArray(this.state.firstPartList);
-        Util.shuffleArray(this.state.secondPartList);
+        };
+        Util.shuffleArrayByBlock(this.state.firstPartList,10);
+        Util.shuffleArrayByBlock(this.state.secondPartList,10);
     }
 
     handleFirstPartChoose = (event) => {
@@ -45,7 +42,7 @@ class MatchQuestionContainer extends React.PureComponent {
     };
 
     checkChosenPart() {
-        const {chosenFirstPartElement, chosenSecondPartElement, passedQuestionCount, wrongAnswerCount} = this.state;
+        const {chosenFirstPartElement, chosenSecondPartElement} = this.state;
         const {increaseWrongAnswerCount, increasePassedQuestionCount} = this.props;
         if (chosenFirstPartElement && chosenSecondPartElement && chosenFirstPartElement === chosenSecondPartElement) {
             increasePassedQuestionCount();
@@ -80,6 +77,7 @@ class MatchQuestionContainer extends React.PureComponent {
     };
 
     delete = () => {
+        const {showFinishPopup} = this.props;
         const {chosenFirstPartElement, chosenSecondPartElement, firstPartList, secondPartList} = this.state;
         const deletedFirstPartElement = firstPartList.filter(q => q.id === chosenFirstPartElement);
         const deletedFirstPartIndex = firstPartList.indexOf(deletedFirstPartElement[0]);
@@ -88,14 +86,18 @@ class MatchQuestionContainer extends React.PureComponent {
         const deletedSecondPartElement = secondPartList.filter(q => q.id === chosenSecondPartElement);
         const deletedSecondPartIndex = secondPartList.indexOf(deletedSecondPartElement[0]);
         secondPartList.splice(deletedSecondPartIndex, 1);
-        this.setState({
-            firstPartList: firstPartList,
-            secondPartList: secondPartList,
-            answerStatus: null,
-            chosenFirstPartElement: null,
-            chosenSecondPartElement: null,
-            isChooseHandle: false,
-        });
+        if (firstPartList.length === 0) {
+            showFinishPopup();
+        } else {
+            this.setState({
+                firstPartList: firstPartList,
+                secondPartList: secondPartList,
+                answerStatus: null,
+                chosenFirstPartElement: null,
+                chosenSecondPartElement: null,
+                isChooseHandle: false,
+            });
+        }
     };
 
     handleTaskFinish = () => {
@@ -104,22 +106,26 @@ class MatchQuestionContainer extends React.PureComponent {
 
     render() {
         const {firstPartList, secondPartList, chosenFirstPartElement, chosenSecondPartElement, answerStatus} = this.state;
-        const firstPartElement = firstPartList && firstPartList.map(firstPart =>
-            <MatchAnswer key={firstPart.id}
-                         id={firstPart.id}
-                         content={firstPart.content}
-                         chosenElement={chosenFirstPartElement}
-                         answerStatus={answerStatus}
-                         onChoose={this.handleFirstPartChoose}/>
-        );
-        const secondPartElement = secondPartList && secondPartList.map(secondPart =>
-            <MatchAnswer key={secondPart.id}
-                         id={secondPart.id}
-                         content={secondPart.content}
-                         answerStatus={answerStatus}
-                         chosenElement={chosenSecondPartElement}
-                         onChoose={this.handleSecondPartChoose}/>
-        );
+        const firstPartElement = [];
+        for (let i = 0; i < 5 && i < firstPartList.length; i++) {
+            const firstPart = firstPartList[i];
+            firstPartElement.push(<MatchAnswer key={firstPart.id}
+                                               id={firstPart.id}
+                                               content={firstPart.content}
+                                               chosenElement={chosenFirstPartElement}
+                                               answerStatus={answerStatus}
+                                               onChoose={this.handleFirstPartChoose}/>)
+        }
+        const secondPartElement = [];
+        for (let i = 0; i < 5 && i < secondPartList.length; i++) {
+            const secondPart = secondPartList[i];
+            secondPartElement.push(<MatchAnswer key={secondPart.id}
+                                                id={secondPart.id}
+                                                content={secondPart.content}
+                                                answerStatus={answerStatus}
+                                                chosenElement={chosenSecondPartElement}
+                                                onChoose={this.handleSecondPartChoose}/>);
+        }
         return (
             <div className="row">
                 <div className="col-6 m-0">
