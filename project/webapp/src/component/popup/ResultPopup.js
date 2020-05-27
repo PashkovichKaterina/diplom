@@ -1,17 +1,18 @@
 import React from 'react';
 import "./popup.css"
 import "../../style/color.css";
-import Util from "../../service/Util";
-import ResultLogic from "../../service/ResultLogic";
+import Util from "../../logic/Util";
+import ResultLogic from "../../logic/ResultLogic";
 
 const ResultPopup = (props) => {
-    const {topicTitle, questionTitle, questionCount, wrongAnswerCount, correctAnswerCount, handleTaskFinish, courseNumber} = props;
-    const result = correctAnswerCount !== null
-        ? ResultLogic.calculateResultOfCorrectAnswer(correctAnswerCount, questionCount)
-        : ResultLogic.calculateResultOfWrongAnswer(wrongAnswerCount, questionCount);
-    const resultMessageElement = correctAnswerCount !== null
-        ? <div>Количество правильных ответов: {correctAnswerCount}</div>
-        : <div>Количество неправильных ответов: {wrongAnswerCount}</div>;
+    const {
+        topicTitle, questionTitle, questionCount, wrongAnswerCount, correctAnswerCount,
+        handleTaskFinish, courseNumber, questionType
+    } = props;
+    const result = ResultLogic.calculateResult(correctAnswerCount, wrongAnswerCount, questionCount);
+    const resultMessageElement = questionType === "MATCH"
+        ? <div>Количество неправильных ответов: {wrongAnswerCount}</div>
+        : <div>Количество правильных ответов: {correctAnswerCount}</div>;
     return (
         <div className="result-popup">
             <div className="result-popup-wrapper">
@@ -22,7 +23,7 @@ const ResultPopup = (props) => {
                     {resultMessageElement}
                 </div>
                 <div className="result-popup-result">Результат: {result}%</div>
-                <button className={`result-popup-button course-${courseNumber}`} onClick={handleTaskFinish}>
+                <button className="result-popup-button" onClick={handleTaskFinish}>
                     Продолжить
                 </button>
             </div>

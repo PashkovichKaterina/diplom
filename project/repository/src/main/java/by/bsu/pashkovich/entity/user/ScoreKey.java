@@ -4,18 +4,18 @@ import by.bsu.pashkovich.entity.Task;
 import by.bsu.pashkovich.entity.Topic;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Embeddable
 public class ScoreKey implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    private Student student;
 
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
@@ -27,11 +27,15 @@ public class ScoreKey implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Task task;
 
+    @Column(name = "passage_date")
+    @UpdateTimestamp
+    private LocalDateTime passageDate;
+
     public ScoreKey() {
     }
 
-    public User getUser() {
-        return user;
+    public Student getStudent() {
+        return student;
     }
 
     public Topic getTopic() {
@@ -42,8 +46,12 @@ public class ScoreKey implements Serializable {
         return task;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public LocalDateTime getPassageDate() {
+        return passageDate;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public void setTask(Task task) {
@@ -52,5 +60,15 @@ public class ScoreKey implements Serializable {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    public void setPassageDate(LocalDateTime passageDate) {
+        this.passageDate = passageDate;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "@STUDENT:" + student.toString() + "TOPIC:" + topic.toString()
+                + "@TASK:" + task.toString();
     }
 }

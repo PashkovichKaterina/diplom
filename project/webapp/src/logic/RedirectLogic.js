@@ -1,14 +1,15 @@
 import Util from "./Util";
 import AuthorizationLogic from "./AuthorizationLogic";
+import {
+    EDIT_STUDENT_URL,
+    LOGIN_URL,
+    SIGNUP_URL,
+    TASK_URL,
+    TOPIC_URL, TOPICS_BY_ID_URL,
+    TOPICS_URL,
+    USER_PROFILE_URL
+} from "../service/ConnectionParameters";
 
-const LOGIN_URL = "/login";
-const SIGUP_URL = "/signup";
-const TOPICS_URL = "/topics";
-const MAIN_URL = "/";
-const EDIT_STUDENT_URL = "/users/{0}/edit";
-const USER_PROFILE_URL = "/users/{0}";
-const TOPIC_URL = "/topics/{0}/tasks";
-const TASK_URL = "/topics/{0}/tasks/{1}";
 
 class RedirectLogic {
     redirect(url) {
@@ -20,7 +21,7 @@ class RedirectLogic {
     }
 
     redirectToMainPage() {
-        this.redirect(MAIN_URL);
+        this.redirect("/");
     }
 
     redirectToLogin() {
@@ -28,7 +29,11 @@ class RedirectLogic {
     }
 
     redirectToSignup() {
-        this.redirect(SIGUP_URL);
+        this.redirect(SIGNUP_URL);
+    }
+
+    redirectToAdminPanel() {
+        this.redirect("/admin");
     }
 
     redirectToEditStudentForm() {
@@ -53,6 +58,9 @@ class RedirectLogic {
         this.redirect(Util.format(TASK_URL, topicId, taskId));
     }
 
+    redirectToTopicScores(topicId) {
+        this.redirect(Util.format(TOPICS_BY_ID_URL, topicId));
+    }
 }
 
 export default new RedirectLogic();

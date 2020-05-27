@@ -1,7 +1,7 @@
 import React from 'react';
 import "./task.css"
-import Util from "../../service/Util";
-import RedirectLogic from "../../service/RedirectLogic";
+import Util from "../../logic/Util";
+import RedirectLogic from "../../logic/RedirectLogic";
 
 class TaskContainer extends React.PureComponent {
     constructor(props) {
@@ -22,22 +22,9 @@ class TaskContainer extends React.PureComponent {
     }
 
     render() {
-        const {title, questionCount, status, value, courseNumber} = this.props;
-        let contentElement;
-        switch (status) {
-            case "in progress":
-                contentElement = <div className="task-status-message">В процессе</div>
-                break;
-            case "completed":
-                contentElement = <div className="task-status-message">Ваш результат: {value}%</div>
-                break;
-            default:
-                contentElement =
-                    <button className={`task-button course-${courseNumber}`} onClick={this.handleStartTask}>
-                        Начать
-                    </button>;
-                break;
-        }
+        const {title, questionCount, lastValue, courseNumber} = this.props;
+        const lastValueMessage = (lastValue || lastValue === 0) &&
+            <div className="task-status-message">Последний результат: {lastValue}%</div>;
         return (
             <div className="task-wrapper">
                 <div className="row task-block">
@@ -46,8 +33,11 @@ class TaskContainer extends React.PureComponent {
                     </div>
                     <div className="col-8 align-self-center">
                         <div className="task-header">{Util.capitalize(title)}</div>
-                        <div className="task-question">Вопросы: {questionCount}</div>
-                        {contentElement}
+                        <div className="task-question">{questionCount} {Util.getQuestionDeclension(questionCount)}</div>
+                        {lastValueMessage}
+                        <button className={`task-button course-${courseNumber}`} onClick={this.handleStartTask}>
+                            Начать
+                        </button>
                     </div>
                 </div>
             </div>

@@ -1,10 +1,8 @@
-const POST_METHOD = "POST";
-const LOGIN_URL = "/english2C/login";
-const SIGNUP_URL = "/english2C/signup";
+import {APP_URL, LOGIN_URL, PORT, POST_METHOD, SIGNUP_URL} from "./ConnectionParameters";
 
 class AuthenticationService {
     login(user) {
-        return fetch(LOGIN_URL, {
+        return fetch(PORT + APP_URL + LOGIN_URL, {
             method: POST_METHOD,
             headers: {
                 'Content-Type': 'application/json',
@@ -14,7 +12,7 @@ class AuthenticationService {
     }
 
     signup(user) {
-        return fetch(SIGNUP_URL, {
+        return fetch(PORT + APP_URL + SIGNUP_URL, {
             method: POST_METHOD,
             headers: {
                 'Content-Type': 'application/json',

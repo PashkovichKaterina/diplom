@@ -1,9 +1,8 @@
 import jwt_decode from "jwt-decode";
+import {APP_URL, PORT, POST_METHOD, REFRESH_TOKEN_URL} from "../service/ConnectionParameters";
 
-const PORT = "http://localhost:3000";
 const ACCESS_TOKEN = "accessToken";
 const REFRESH_TOKEN = "refreshToken";
-const REFRESH_TOKEN_URL = PORT + "/english2C/refreshToken";
 
 class AuthorizationLogic {
     isUserLogin() {
@@ -97,14 +96,9 @@ class AuthorizationLogic {
         const accessToken = this.getAccessToken();
         const refreshToken = this.getRefreshToken();
         const userId = this.getUserId();
-        console.log(JSON.stringify({
-            "userId": Number(userId),
-            "accessToken": accessToken,
-            "refreshToken": refreshToken
-        }));
         this.deleteTokens();
-        return fetch(REFRESH_TOKEN_URL, {
-            method: "POST",
+        return fetch(PORT + APP_URL + REFRESH_TOKEN_URL, {
+            method: POST_METHOD,
             headers: new Headers({
                 'Content-Type': 'application/json',
             }),

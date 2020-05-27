@@ -7,11 +7,11 @@ import AnswerQuestionContainer from "./AnswerQuestionContainer";
 import ProgressPanel from "./answer/ProgressPanel";
 import QuestionHeader from "./QuestionHeader";
 import CloseTaskPopup from "../popup/CloseTaskPopup";
-import ResultLogic from "../../service/ResultLogic";
-import RedirectLogic from "../../service/RedirectLogic";
+import ResultLogic from "../../logic/ResultLogic";
+import RedirectLogic from "../../logic/RedirectLogic";
 
 import ResultPopup from "../popup/ResultPopup";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
+import AuthorizationLogic from "../../logic/AuthorizationLogic";
 import EmptyDataPopup from "../popup/EmptyDataPopup";
 import ScoreService from "../../service/ScoreService";
 
@@ -49,20 +49,14 @@ class QuestionContainer extends React.PureComponent {
                 .then(tasks => {
                     if (tasks) {
                         const currentTask = tasks.filter(task => task.id == taskId);
-                        if (currentTask && currentTask.length > 0 && currentTask[0].status === "pending") {
-                            this.setState({
-                                questionType: currentTask[0].type,
-                                questionStatus: currentTask[0].status,
-                                questionTitle: currentTask[0].title,
-                                questionCount: currentTask[0].questions.length,
-                                questions: currentTask[0].questions
-                            });
-                            ScoreService.saveUserResult(topicId, taskId, null);
-                            window.addEventListener('beforeunload', this.handleLeavePage);
-                            window.addEventListener('beforeunload', this.finishTask);
-                        } else {
-                            RedirectLogic.redirectToTopic(topicId);
-                        }
+                        this.setState({
+                            questionType: currentTask[0].type,
+                            questionTitle: currentTask[0].title,
+                            questionCount: currentTask[0].questions.length,
+                            questions: currentTask[0].questions
+                        });
+                        window.addEventListener('beforeunload', this.handleLeavePage);
+                        window.addEventListener('unload', this.finishTask);
                     }
                 });
         } else {
@@ -89,6 +83,7 @@ class QuestionContainer extends React.PureComponent {
                 questionElement = <MatchQuestionContainer {...this.props}
                                                           questions={questions}
                                                           showFinishPopup={this.showFinishPopup}
+                                                          increaseCorrectAnswerCount={this.increaseCorrectAnswerCount}
                                                           increaseWrongAnswerCount={this.increaseWrongAnswerCount}
                                                           increasePassedQuestionCount={this.increasePassedQuestionCount}/>;
                 break;
@@ -153,9 +148,7 @@ class QuestionContainer extends React.PureComponent {
 
     getCurrentResult() {
         const {questionCount, wrongAnswerCount, correctAnswerCount} = this.state;
-        return wrongAnswerCount
-            ? ResultLogic.calculateResultOfWrongAnswer(wrongAnswerCount, questionCount)
-            : ResultLogic.calculateResultOfCorrectAnswer(correctAnswerCount, questionCount)
+        return ResultLogic.calculateResult(correctAnswerCount, wrongAnswerCount, questionCount)
     }
 
     showFinishPopup = () => {
@@ -167,11 +160,6 @@ class QuestionContainer extends React.PureComponent {
             questionCount, passedQuestionCount, topicTitle, questionTitle, questionType, courseNumber,
             isShowFinishTaskPopup, isShowCloseTaskPopup, wrongAnswerCount, correctAnswerCount, isShowEmptyDataPopup
         } = this.state;
-        if (questionType === "MATCH") {
-            correctAnswerCount = null;
-        } else {
-            wrongAnswerCount = null;
-        }
         const emptyDataPopup = isShowEmptyDataPopup &&
             <EmptyDataPopup handleFillInForm={this.handleProfileRedirect}
                             handleSkipClick={this.handleCloseEmptyDataPopup}/>;
@@ -185,6 +173,7 @@ class QuestionContainer extends React.PureComponent {
                          questionTitle={questionTitle}
                          questionCount={questionCount}
                          courseNumber={courseNumber}
+                         questionType={questionType}
                          wrongAnswerCount={wrongAnswerCount}
                          correctAnswerCount={correctAnswerCount}
                          handleTaskFinish={this.finishTask}/>;

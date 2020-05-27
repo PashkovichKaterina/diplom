@@ -41,6 +41,10 @@
     margin: 10px 0;
 }
 
+.profile-topic:hover {
+    cursor: pointer;
+}
+
 .profile-topic-title {
     font-size: 20px;
 }

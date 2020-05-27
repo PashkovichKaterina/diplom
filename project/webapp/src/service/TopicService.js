@@ -1,13 +1,19 @@
-import AuthorizationLogic from "./AuthorizationLogic";
-
-const PORT = "http://localhost:3000";
+import AuthorizationLogic from "../logic/AuthorizationLogic";
+import {
+    APP_URL, GET_METHOD,
+    PORT, TASK_URL,
+    TOPICS_BY_COURSE_URL,
+    TOPICS_BY_COURSE_WITH_PAGINATION_URL, TOPICS_BY_ID_URL,
+    TOPICS_BY_TITLE_URL
+} from "./ConnectionParameters";
+import Util from "../logic/Util";
 
 class TopicService {
     getAllTopicsByCourseNumber(courseNumber) {
         return AuthorizationLogic.checkToken()
             .then(() => {
-                return fetch(PORT + "/english2c/topics?course=" + courseNumber, {
-                    method: "GET",
+                return fetch(Util.format(PORT + APP_URL + TOPICS_BY_COURSE_URL, courseNumber), {
+                    method: GET_METHOD,
                     headers: new Headers({
                         'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
                     })
@@ -18,8 +24,8 @@ class TopicService {
     getTopicsByCourseNumber(courseNumber) {
         return AuthorizationLogic.checkToken()
             .then(() => {
-                return fetch(PORT + "/english2c/topics?course=" + courseNumber + "&page=1&size=6", {
-                    method: "GET",
+                return fetch(Util.format(PORT + APP_URL + TOPICS_BY_COURSE_WITH_PAGINATION_URL, courseNumber), {
+                    method: GET_METHOD,
                     headers: new Headers({
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
@@ -31,8 +37,8 @@ class TopicService {
     getTopicsByTitle(topicTitle) {
         return AuthorizationLogic.checkToken()
             .then(() => {
-                return fetch(PORT + "/english2c/topics?topicTitle=" + topicTitle, {
-                    method: "GET",
+                return fetch(Util.format(PORT + APP_URL + TOPICS_BY_TITLE_URL, topicTitle), {
+                    method: GET_METHOD,
                     headers: new Headers({
                         'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
                     })
@@ -43,8 +49,8 @@ class TopicService {
     getTopicById(topicId) {
         return AuthorizationLogic.checkToken()
             .then(() => {
-                return fetch(PORT + "/english2c/topics/" + topicId, {
-                    method: "GET",
+                return fetch(Util.format(PORT + APP_URL + TOPICS_BY_ID_URL, topicId), {
+                    method: GET_METHOD,
                     headers: new Headers({
                         'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
                     })
@@ -55,8 +61,8 @@ class TopicService {
     getTopicTask(topicId, taskId) {
         return AuthorizationLogic.checkToken()
             .then(() => {
-                return fetch(PORT + "/english2c/topics/" + topicId + "/tasks/" + taskId, {
-                    method: "GET",
+                return fetch(Util.format(PORT + APP_URL + TASK_URL, topicId, taskId), {
+                    method: GET_METHOD,
                     headers: new Headers({
                         'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
                     })

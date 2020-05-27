@@ -4,7 +4,7 @@ import Footer from "../general/Footer";
 import HeaderContainer from "../general/HeaderContainer";
 import TopicService from "../../service/TopicService";
 import Course from "../course/Course";
-import PaginationLogic from "../../service/PaginationLogic";
+import PaginationLogic from "../../logic/PaginationLogic";
 import TopicContainer from "./TopicContainer";
 
 class TopicsContainer extends React.PureComponent {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Message from "../../service/Message";
+import Message from "../../logic/Message";
 
 const InputElement = (props) => {
     const {name, type, isValid, value, onChange, onKeyDown} = props;

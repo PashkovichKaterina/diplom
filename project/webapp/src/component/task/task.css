@@ -1,3 +1,9 @@
+@media screen and (max-width: 768px) {
+    .task-wrapper, .topic-header {
+        padding: 20px!important;
+    }
+}
+
 .task-wrapper {
     padding: 20px 130px;
 }
@@ -7,7 +13,7 @@
     padding: 20px 0;
     box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 .task-header {
@@ -31,10 +37,12 @@
     padding: 0 130px;
     font-size: 30px;
 }
-.task-image{
+
+.task-image {
     width: 50%;
 }
-.task-status-message{
+
+.task-status-message {
     font-weight: bold;
-    margin: 10px 0;
+    margin: 30px 0 0;
 }

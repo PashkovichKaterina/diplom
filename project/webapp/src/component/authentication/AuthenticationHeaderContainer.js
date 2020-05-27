@@ -1,6 +1,6 @@
 import React from 'react';
 import "./authentication.css"
-import RedirectLogic from "../../service/RedirectLogic";
+import RedirectLogic from "../../logic/RedirectLogic";
 
 class AuthenticationHeaderContainer extends React.PureComponent {
     handleLoginRedirect = () => {

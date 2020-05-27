@@ -3,7 +3,7 @@ import "./question.css"
 import QuestionPanel from "./QuestionPanel";
 import GiveAnswerPanel from "./answer/GiveAnswerPanel";
 import ResultPanel from "./answer/ResultPanel";
-import ResultLogic from "../../service/ResultLogic";
+import ResultLogic from "../../logic/ResultLogic";
 
 class AnswerQuestionContainer extends React.PureComponent {
     constructor(props) {

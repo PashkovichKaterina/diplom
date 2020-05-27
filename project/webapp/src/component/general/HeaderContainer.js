@@ -1,8 +1,8 @@
 import React from 'react';
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
-import RedirectLogic from "../../service/RedirectLogic";
+import AuthorizationLogic from "../../logic/AuthorizationLogic";
+import RedirectLogic from "../../logic/RedirectLogic";
 
 class HeaderContainer extends React.PureComponent {
     handleLogout = () => {
@@ -20,12 +20,15 @@ class HeaderContainer extends React.PureComponent {
 
     render() {
         const {isMain} = this.props;
+        const topicElement = AuthorizationLogic.isStudentLogin() && <li><a href="/topics">Темы</a></li>;
+        const profileElement = AuthorizationLogic.isStudentLogin() &&
+            <a className="dropdown-item" onClick={this.handleProfileRedirect}>Личный кабинет</a>;
         return (
             <header
                 className={isMain ? "container-fluid d-table text-right main" : "container-fluid d-table text-right ba"}>
                 <div className="d-inline float-left site-title" onClick={this.handleMainPage}>English2C</div>
                 <ul className="right-nav d-inline">
-                    <li><a href="/topics">Темы</a></li>
+                    {topicElement}
                     <li>
                         <div className="dropdown">
                             <button className="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
@@ -34,7 +37,7 @@ class HeaderContainer extends React.PureComponent {
                                 <FontAwesomeIcon icon={faUser}/> {AuthorizationLogic.getUserLogin()}
                             </button>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" onClick={this.handleProfileRedirect}>Личный кабинет</a>
+                                {profileElement}
                                 <a className="dropdown-item" onClick={this.handleLogout}>Выйти</a>
                             </div>
                         </div>

@@ -36,8 +36,7 @@ class TasksContainer extends React.PureComponent {
                                topicId={topicId}
                                courseNumber={courseNumber}
                                questionCount={task.questions.length}
-                               status={task.status}
-                               value={task.value}/>
+                               lastValue={task.lastValue}/>
             );
         return (
             <div>

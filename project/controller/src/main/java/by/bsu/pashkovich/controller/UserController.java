@@ -1,6 +1,6 @@
 package by.bsu.pashkovich.controller;
 
-import by.bsu.pashkovich.dto.ScoreDto;
+import by.bsu.pashkovich.dto.score.ScoreDto;
 import by.bsu.pashkovich.dto.UserDto;
 import by.bsu.pashkovich.service.TopicService;
 import by.bsu.pashkovich.service.UserService;
@@ -21,10 +21,11 @@ public class UserController {
         this.topicService = topicService;
     }
 
-    @PostMapping("/{id}/scores")
-    public ResponseEntity save(@RequestBody ScoreDto scoreDto) {
-        userService.saveScore(scoreDto);
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity editStudentData(@PathVariable("id") Long userId,
+                                          @RequestBody UserDto userDto) {
+        userDto.setId(userId);
+        return new ResponseEntity<>(userService.editStudentData(userDto), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/scores")
@@ -32,9 +33,12 @@ public class UserController {
         return new ResponseEntity<>(topicService.getInProgressTopics(userId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity editStudentData(@RequestBody UserDto userDto) {
-        userService.editStudentData(userDto);
-        return null;
+    @PostMapping("/{id}/scores")
+    public ResponseEntity save(@PathVariable("id") Long userID,
+                               @RequestBody ScoreDto scoreDto) {
+        UserDto userDto = new UserDto();
+        userDto.setId(userID);
+        scoreDto.setUser(userDto);
+        return new ResponseEntity<>(userService.saveScore(scoreDto), HttpStatus.OK);
     }
 }

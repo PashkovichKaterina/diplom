@@ -1,6 +1,5 @@
 package by.bsu.pashkovich.controller;
 
-import by.bsu.pashkovich.convertion.TopicConverter;
 import by.bsu.pashkovich.dto.PageDto;
 import by.bsu.pashkovich.dto.PageRequest;
 import by.bsu.pashkovich.dto.TopicDto;
@@ -17,16 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/english2c/topics")
+@RequestMapping("/english2C/topics")
 public class TopicController {
-
     private TopicService topicService;
-    private TopicConverter topicConverter;
 
     @Autowired
-    public TopicController(TopicService topicService, TopicConverter topicConverter) {
+    public TopicController(TopicService topicService) {
         this.topicService = topicService;
-        this.topicConverter = topicConverter;
     }
 
     @GetMapping
@@ -52,13 +48,18 @@ public class TopicController {
 
     @GetMapping("/{id}")
     public ResponseEntity getTopicById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(topicService.getTopicById(id));
+        return new ResponseEntity<>(topicService.getTopicById(id), HttpStatus.OK);
     }
 
     @GetMapping("/{topicId}/tasks/{taskId}")
     public ResponseEntity getTopicTask(@PathVariable("topicId") Long topicId,
                                        @PathVariable("taskId") Long taskId) {
-        return new ResponseEntity<>(topicService.getTopicTask(taskId), HttpStatus.OK);
+        return new ResponseEntity<>(topicService.getTopicTask(topicId, taskId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/scores")
+    public ResponseEntity getScoresByTopic(@PathVariable("id") Long topicId) {
+        return new ResponseEntity<>(topicService.getScoresByTopic(topicId), HttpStatus.OK);
     }
 
     private String getLinkHead(PageDto page) {

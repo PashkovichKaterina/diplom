@@ -1,7 +1,7 @@
 import React from 'react';
 import "./topic.css"
 import "../../style/color.css"
-import Util from "../../service/Util";
+import Util from "../../logic/Util";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {faMinusCircle} from "@fortawesome/free-solid-svg-icons";
@@ -40,7 +40,7 @@ class TopicContainer extends React.PureComponent {
                             <div className="topic-title">{Util.formatTopicTitle(title)}</div>
                         </div>
                         <div className="topic-footer">
-                            <span>Задания: {taskCount}</span>
+                            <span>{taskCount} {Util.getTaskDeclension(taskCount)}</span>
                             <span className="status-icon">{statusIcon}</span>
                         </div>
                     </div>

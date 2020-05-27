@@ -1,8 +1,8 @@
 import React from 'react';
 import "./question.css"
 import MatchAnswer from "./answer/MatchAnswer";
-import Util from "../../service/Util";
-import RedirectLogic from "../../service/RedirectLogic";
+import Util from "../../logic/Util";
+import RedirectLogic from "../../logic/RedirectLogic";
 
 class MatchQuestionContainer extends React.PureComponent {
     constructor(props) {
@@ -15,8 +15,8 @@ class MatchQuestionContainer extends React.PureComponent {
                 return {id: question.id, content: question.secondPart}
             })
         };
-        Util.shuffleArrayByBlock(this.state.firstPartList,10);
-        Util.shuffleArrayByBlock(this.state.secondPartList,10);
+        Util.shuffleArrayByBlock(this.state.firstPartList, 7);
+        Util.shuffleArrayByBlock(this.state.secondPartList, 7);
     }
 
     handleFirstPartChoose = (event) => {
@@ -43,9 +43,10 @@ class MatchQuestionContainer extends React.PureComponent {
 
     checkChosenPart() {
         const {chosenFirstPartElement, chosenSecondPartElement} = this.state;
-        const {increaseWrongAnswerCount, increasePassedQuestionCount} = this.props;
+        const {increaseWrongAnswerCount, increasePassedQuestionCount, increaseCorrectAnswerCount} = this.props;
         if (chosenFirstPartElement && chosenSecondPartElement && chosenFirstPartElement === chosenSecondPartElement) {
             increasePassedQuestionCount();
+            increaseCorrectAnswerCount();
             this.setState({
                 answerStatus: true,
                 isChooseHandle: true
@@ -106,34 +107,26 @@ class MatchQuestionContainer extends React.PureComponent {
 
     render() {
         const {firstPartList, secondPartList, chosenFirstPartElement, chosenSecondPartElement, answerStatus} = this.state;
-        const firstPartElement = [];
-        for (let i = 0; i < 5 && i < firstPartList.length; i++) {
+        const le = [];
+        for (let i = 0; i < 5 && i < firstPartList.length && i < secondPartList.length; i++) {
             const firstPart = firstPartList[i];
-            firstPartElement.push(<MatchAnswer key={firstPart.id}
-                                               id={firstPart.id}
-                                               content={firstPart.content}
-                                               chosenElement={chosenFirstPartElement}
-                                               answerStatus={answerStatus}
-                                               onChoose={this.handleFirstPartChoose}/>)
-        }
-        const secondPartElement = [];
-        for (let i = 0; i < 5 && i < secondPartList.length; i++) {
             const secondPart = secondPartList[i];
-            secondPartElement.push(<MatchAnswer key={secondPart.id}
-                                                id={secondPart.id}
-                                                content={secondPart.content}
-                                                answerStatus={answerStatus}
-                                                chosenElement={chosenSecondPartElement}
-                                                onChoose={this.handleSecondPartChoose}/>);
+            le.push(<div className="row" key={i}>
+                <MatchAnswer id={firstPart.id}
+                             content={firstPart.content}
+                             chosenElement={chosenFirstPartElement}
+                             answerStatus={answerStatus}
+                             onChoose={this.handleFirstPartChoose}/>
+                <MatchAnswer id={secondPart.id}
+                             content={secondPart.content}
+                             answerStatus={answerStatus}
+                             chosenElement={chosenSecondPartElement}
+                             onChoose={this.handleSecondPartChoose}/>
+            </div>);
         }
         return (
-            <div className="row">
-                <div className="col-6 m-0">
-                    {firstPartElement}
-                </div>
-                <div className="col-6 m-0">
-                    {secondPartElement}
-                </div>
+            <div>
+                {le}
             </div>
         )
     }

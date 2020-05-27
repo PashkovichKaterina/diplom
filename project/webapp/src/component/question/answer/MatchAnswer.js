@@ -20,9 +20,8 @@ class MatchAnswer extends React.PureComponent {
             }
         }
         return (
-            <div className="col-12 p-0 align-self-center">
-                <div className={className} id={id} onClick={onChoose}>
-                    {content}
+            <div className="col-6 position-relative h-auto">
+                <div className={className} id={id} onClick={onChoose} dangerouslySetInnerHTML={{__html: content}}>
                 </div>
             </div>
         )

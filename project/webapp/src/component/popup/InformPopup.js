@@ -11,7 +11,7 @@ const InformPopup = (props) => {
                     Студенты, которые не заполнили персональные данные, не могут проходить задания. Персональные данные
                     можно будет заполнить после регистрации в личном кабинете.
                 </div>
-                <button className="finish-task-popup-button" onClick={handleFillInForm}>
+                <button className="finish-task-popup-button-active" onClick={handleFillInForm}>
                     Заполнить форму
                 </button>
                 <button className="finish-task-popup-button" onClick={handleSkipClick}>

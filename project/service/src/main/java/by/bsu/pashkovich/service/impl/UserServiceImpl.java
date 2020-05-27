@@ -1,7 +1,8 @@
 package by.bsu.pashkovich.service.impl;
 
+import by.bsu.pashkovich.convertion.ScoreConverter;
 import by.bsu.pashkovich.convertion.UserConverter;
-import by.bsu.pashkovich.dto.ScoreDto;
+import by.bsu.pashkovich.dto.score.ScoreDto;
 import by.bsu.pashkovich.dto.TokenDto;
 import by.bsu.pashkovich.dto.UserDto;
 import by.bsu.pashkovich.entity.user.Score;
@@ -12,13 +13,11 @@ import by.bsu.pashkovich.exception.authentication.RefreshTokenException;
 import by.bsu.pashkovich.exception.authentication.SignupException;
 import by.bsu.pashkovich.exception.entity.NoSuchEntityException;
 import by.bsu.pashkovich.repository.*;
-import by.bsu.pashkovich.security.SecurityUser;
 import by.bsu.pashkovich.security.jwt.JwtTokenProvider;
 import by.bsu.pashkovich.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,31 +26,35 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
+    private StudentRepository studentRepository;
     private UserConverter userConverter;
     private ScoreRepository scoreRepository;
+    private ScoreConverter scoreConverter;
+
     private TopicRepository topicRepository;
     private TaskRepository taskRepository;
-    private StudentRepository studentRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager,
                            JwtTokenProvider jwtTokenProvider, BCryptPasswordEncoder bCryptPasswordEncoder,
                            UserConverter userConverter, ScoreRepository scoreRepository,
-                           TopicRepository topicRepository, TaskRepository taskRepository,
-                           StudentRepository studentRepository) {
+                           StudentRepository studentRepository, ScoreConverter scoreConverter,
+                           TopicRepository topicRepository, TaskRepository taskRepository) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userConverter = userConverter;
         this.scoreRepository = scoreRepository;
+        this.studentRepository = studentRepository;
+        this.scoreConverter = scoreConverter;
+
         this.topicRepository = topicRepository;
         this.taskRepository = taskRepository;
-        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -93,26 +96,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveScore(ScoreDto scoreDto) {
-        Score score = new Score();
-        Long userId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        score.setUser(userRepository.findById(userId).get());
-        score.setTopic(topicRepository.findById(scoreDto.getTopicId()).get());
-        score.setTask(taskRepository.findById(scoreDto.getTaskId()).get());
-        score.setValue(scoreDto.getValue());
+    public ScoreDto saveScore(ScoreDto scoreDto) {
+        Score score = scoreConverter.toScore(scoreDto);
         scoreRepository.save(score);
+        return scoreConverter.toScoreDto(score);
     }
 
     @Override
-    public void editStudentData(UserDto userDto) {
-        Long userId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        Optional<Student> user = studentRepository.findById(userId);
+    public UserDto editStudentData(UserDto userDto) {
+        Optional<Student> user = studentRepository.findById(userDto.getId());
         if (user.isPresent()) {
             Student student = user.get();
             student.setName(userDto.getName());
             student.setSurname(userDto.getSurname());
             studentRepository.save(student);
-            return;
+            return userConverter.toUserDto(student);
         }
         throw new NoSuchEntityException("");
     }
@@ -128,7 +126,6 @@ public class UserServiceImpl implements UserService {
             surname = student.getSurname();
             name = student.getName();
         }
-        System.out.println(name);
         String accessToken = jwtTokenProvider.getAccessToken(id, login, role.toString(), name, surname);
         String refreshToken = jwtTokenProvider.getRefreshToken(id, login, role.toString(), name, surname);
         user.setRefreshToken(refreshToken);

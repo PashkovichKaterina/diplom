@@ -1,50 +1,59 @@
 package by.bsu.pashkovich.service.impl;
 
-import by.bsu.pashkovich.convertion.ChooseQuestionAnswerConverter;
-import by.bsu.pashkovich.convertion.PageConverter;
-import by.bsu.pashkovich.convertion.TaskConverter;
-import by.bsu.pashkovich.convertion.TopicConverter;
+import by.bsu.pashkovich.convertion.*;
 import by.bsu.pashkovich.dto.PageDto;
+import by.bsu.pashkovich.dto.score.AdminScoreDto;
+import by.bsu.pashkovich.dto.score.ResultTableDto;
+import by.bsu.pashkovich.dto.score.ScoreDto;
 import by.bsu.pashkovich.dto.TaskDto;
 import by.bsu.pashkovich.dto.TopicDto;
 import by.bsu.pashkovich.dto.question.ChooseQuestionAnswerDto;
 import by.bsu.pashkovich.dto.question.ChooseQuestionDto;
-import by.bsu.pashkovich.dto.question.QuestionDto;
+import by.bsu.pashkovich.dto.score.ValueDto;
 import by.bsu.pashkovich.entity.Task;
 import by.bsu.pashkovich.entity.Topic;
 import by.bsu.pashkovich.entity.question.ChooseQuestionAnswer;
+import by.bsu.pashkovich.entity.user.Score;
+import by.bsu.pashkovich.entity.user.Student;
 import by.bsu.pashkovich.exception.entity.NoSuchEntityException;
 import by.bsu.pashkovich.repository.*;
 import by.bsu.pashkovich.security.SecurityUser;
 import by.bsu.pashkovich.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TopicServiceImpl implements TopicService {
     private TopicRepository topicRepository;
-    private CourseRepository courseRepository;
     private TopicConverter topicConverter;
+    private CourseRepository courseRepository;
     private TaskRepository taskRepository;
     private TaskConverter taskConverter;
     private ChooseQuestionAnswerRepository answerRepository;
     private ChooseQuestionAnswerConverter answerConverter;
     private ScoreRepository scoreRepository;
     private PageConverter pageConverter;
+    private UserConverter userConverter;
 
     @Autowired
     public TopicServiceImpl(TopicRepository topicRepository, CourseRepository courseRepository,
                             TopicConverter topicConverter, TaskRepository taskRepository,
                             TaskConverter taskConverter, ChooseQuestionAnswerRepository answerRepository,
                             ChooseQuestionAnswerConverter answerConverter, ScoreRepository scoreRepository,
-                            PageConverter pageConverter) {
+                            PageConverter pageConverter, UserConverter userConverter) {
         this.topicRepository = topicRepository;
         this.courseRepository = courseRepository;
         this.topicConverter = topicConverter;
@@ -54,6 +63,7 @@ public class TopicServiceImpl implements TopicService {
         this.answerConverter = answerConverter;
         this.scoreRepository = scoreRepository;
         this.pageConverter = pageConverter;
+        this.userConverter = userConverter;
     }
 
     @Override
@@ -64,6 +74,7 @@ public class TopicServiceImpl implements TopicService {
         setTopicStatus(foundTopicDto);
         List<TaskDto> taskDtoList = foundTopicDto.getTasks().stream().peek(this::setAnswers).collect(Collectors.toList());
         foundTopicDto.setTasks(taskDtoList);
+        setTopicStatus(foundTopicDto);
         return foundTopicDto;
     }
 
@@ -98,11 +109,10 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public TaskDto getTopicTask(Long taskId) {
+    public TaskDto getTopicTask(Long topicId, Long taskId) {
         Task foundTask = taskRepository.getTaskByIdAndTopicId(taskId);
         TaskDto foundTaskDto = taskConverter.toTaskDto(foundTask);
         setAnswers(foundTaskDto);
-        setTaskStatus(foundTaskDto);
         return foundTaskDto;
     }
 
@@ -110,6 +120,101 @@ public class TopicServiceImpl implements TopicService {
     public List<TopicDto> getInProgressTopics(Long userId) {
         List<Topic> foundTopics = topicRepository.getInProgressTopics(userId);
         return setTopicsStatus(topicConverter.toTopicDtoList(foundTopics));
+    }
+
+    @Override
+    public List<ResultTableDto> getScoresByTopic(Long topicId) {
+        List<Score> scores = scoreRepository.getScoreByTopic(topicId, Sort.by(Sort.Direction.ASC, "scoreKey.passageDate"));
+        Topic topic = topicRepository.findById(topicId).get();
+
+        List<ResultTableDto> resultTableDtos = new ArrayList<>();
+
+        Map<Student, List<Score>> phonesByCompany = scores.stream().collect(
+                Collectors.groupingBy(Score::getStudent))
+                .entrySet().stream().
+                        sorted(Map.Entry.comparingByKey()).
+                        collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                                (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+
+
+        for (Map.Entry<Student, List<Score>> item : phonesByCompany.entrySet()) {
+            ResultTableDto resultTableDto = new ResultTableDto();
+            resultTableDto.setUser(userConverter.toUserDto(item.getKey()));
+            List<AdminScoreDto> scoreDtos = new ArrayList<>();
+
+            long i = 1;
+            while (scores.stream().filter(s -> s.getStudent().getId().equals(item.getKey().getId())).count() > 0) {
+                AdminScoreDto score = new AdminScoreDto();
+                score.setAttemptNumber(i);
+                List<ValueDto> values = new ArrayList<>();
+
+                for (Task task : topic.getTasks()) {
+                    ValueDto value = new ValueDto();
+                    value.setTaskId(task.getId());
+                    Score currentScore = scores.stream()
+                            .filter(s -> s.getTask().getId().equals(task.getId()) && s.getStudent().getId().equals(item.getKey().getId()))
+                            .findFirst().orElse(new Score());
+                    scores.remove(currentScore);
+                    value.setValue(currentScore.getValue());
+                    values.add(value);
+                }
+                score.setValues(values);
+                scoreDtos.add(score);
+                i++;
+            }
+            resultTableDto.setScores(scoreDtos);
+            resultTableDtos.add(resultTableDto);
+        }
+        return resultTableDtos;
+
+
+
+
+
+
+        /*List<Score> scores = scoreRepository.getScoreByTopic(topicId);
+
+        List<ResultTableDto> resultTableDtos = new ArrayList<>();
+
+        Map<Student, List<Score>> phonesByCompany = scores.stream().collect(
+                Collectors.groupingBy(Score::getStudent));
+
+        for (Map.Entry<Student, List<Score>> item : phonesByCompany.entrySet()) {
+
+            ResultTableDto resultTableDto = new ResultTableDto();
+            resultTableDto.setUser(userConverter.toUserDto(item.getKey()));
+            List<AdminScoreDto> scoreDtos = new ArrayList<>();
+
+            Map<Task, List<Score>> l2 = item.getValue().stream().collect(
+                    Collectors.groupingBy(Score::getTask));
+
+            for (Map.Entry<Task, List<Score>> i2 : l2.entrySet()) {
+                long i = 1;
+                for (Score score : item.getValue()) {
+
+                    long finalI = i;
+                    List<AdminScoreDto> a = scoreDtos.stream().filter(s -> s.getAttemptNumber() == finalI).collect(Collectors.toList());
+
+                    AdminScoreDto adminScoreDto = a.size() > 0
+                            ? a.get(0)
+                            : new AdminScoreDto();
+                    adminScoreDto.setAttemptNumber(i);
+
+                    List<ValueDto> values = adminScoreDto.getValues();
+                    ValueDto valueDto = new ValueDto();
+                    valueDto.setTaskId(i2.getKey().getId());
+                    valueDto.setValue(score.getValue());
+                    values.add(valueDto);
+                    i++;
+
+                    adminScoreDto.setValues(values);
+                    scoreDtos.add(adminScoreDto);
+                }
+            }
+            resultTableDto.setScores(scoreDtos);
+            resultTableDtos.add(resultTableDto);
+        }
+        return resultTableDtos;*/
     }
 
     private void setAnswers(TaskDto taskDto) {
@@ -132,17 +237,11 @@ public class TopicServiceImpl implements TopicService {
     private void setTopicStatus(TopicDto topicDto) {
         Long userId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         topicDto.setStatus(scoreRepository.getUserStatusByTopic(userId, topicDto.getId()));
-        List<TaskDto> taskDtoList = topicDto.getTasks().stream().peek(this::setTaskStatus).collect(Collectors.toList());
-        topicDto.setTasks(taskDtoList);
+        topicDto.setTasks(setTasksLastValue(topicDto.getTasks()));
     }
 
-    private void setTaskStatus(TaskDto taskDto) {
+    private List<TaskDto> setTasksLastValue(List<TaskDto> taskDtoList) {
         Long userId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        String status = scoreRepository.getUserStatusByTask(userId, taskDto.getId());
-        taskDto.setStatus(status);
-        if (status.equalsIgnoreCase("completed")) {
-            Double value = scoreRepository.getScoreByUserAndTask(userId, taskDto.getId()).getValue();
-            taskDto.setValue(value);
-        }
+        return taskDtoList.stream().peek(taskDto -> taskDto.setLastValue(scoreRepository.getLastUserScoreByTask(userId, taskDto.getId()))).collect(Collectors.toList());
     }
 }

@@ -61,11 +61,11 @@ class FormValidator {
     }
 
     isValidName(name) {
-        return name && name.match(/^[A-zА-я ]{1,30}$/);
+        return name && name.match(/^[A-zА-я ]{1,10}$/);
     }
 
     isValidSurname(surname) {
-        return surname && surname.match(/^[A-zА-я ]{1,30}$/);
+        return surname && surname.match(/^[A-zА-я ]{1,10}$/);
     }
 }
 

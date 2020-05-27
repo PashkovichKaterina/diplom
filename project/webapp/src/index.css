@@ -29,7 +29,7 @@ footer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
 }
 
 header.main {
@@ -79,7 +79,7 @@ ul.right-nav li {
     border: none;
     border-radius: 4px;
     font-size: 20px;
-    padding: 5px 10px;
+    padding: 10px 20px;
 }
 
 #root {

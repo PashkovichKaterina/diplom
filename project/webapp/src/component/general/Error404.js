@@ -1,6 +1,7 @@
 import React from 'react';
 import im from "../../image/404.png";
 import '../../index.css';
+import RedirectLogic from "../../logic/RedirectLogic";
 
 const Error404 = () => {
     document.getElementById("root").style.padding = '0';
@@ -15,7 +16,9 @@ const Error404 = () => {
                     <div className="error-page-message">Мы не можем найти страницу, которую вы ищете. Пожалуйста,
                         убедитесь, что вы ввели правильный URL.
                     </div>
-                    <button className="error-page-button">Вернуться на главную</button>
+                    <button className="error-page-button" onClick={() => RedirectLogic.redirectToMainPage()}>Вернуться
+                        на главную
+                    </button>
                 </div>
             </div>
         </div>

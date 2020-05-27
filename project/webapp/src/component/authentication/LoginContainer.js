@@ -3,12 +3,12 @@ import "./authentication.css"
 import InputElement from "./InputElement";
 import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
 import AuthenticationButton from "./AuthenticationButton";
-import FormValidator from "../../service/FormValidator";
+import FormValidator from "../../logic/FormValidator";
 import authImage from "../../image/auth.png";
 import AuthenticationService from "../../service/AuthenticationService";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
-import RedirectLogic from "../../service/RedirectLogic";
-import Message from "../../service/Message";
+import AuthorizationLogic from "../../logic/AuthorizationLogic";
+import RedirectLogic from "../../logic/RedirectLogic";
+import Message from "../../logic/Message";
 
 class LoginContainer extends React.PureComponent {
     constructor(props) {
@@ -84,7 +84,7 @@ class LoginContainer extends React.PureComponent {
                                                       errorMessage={!isSuccessLogin && Message.getString("authenticationException")}/>
                             </form>
                         </div>
-                        <div className="col-lg-6 p-0 align-self-center text-center">
+                        <div className="col-lg-6 p-0 align-self-center text-center d-sm-none d-md-none d-none d-lg-block">
                             <img src={authImage} className="auth-image"/>
                         </div>
                     </div>

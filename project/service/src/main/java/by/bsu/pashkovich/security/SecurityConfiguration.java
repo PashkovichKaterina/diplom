@@ -52,7 +52,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(SIGNUP_ENDPOINT).permitAll()
                 .antMatchers(REFRESH_TOKEN_ENDPOINT).permitAll()
 
-                .antMatchers("/english2C/**").hasRole("USER")
 
 
                 .antMatchers(LOGIN_ENDPOINT).permitAll()

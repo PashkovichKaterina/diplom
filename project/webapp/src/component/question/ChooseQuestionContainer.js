@@ -3,7 +3,8 @@ import "./question.css"
 import QuestionPanel from "./QuestionPanel";
 import ResultPanel from "./answer/ResultPanel";
 import ChooseAnswer from "./answer/ChooseAnswer";
-import ResultLogic from "../../service/ResultLogic";
+import ResultLogic from "../../logic/ResultLogic";
+import Util from "../../logic/Util";
 
 class ChooseQuestionContainer extends React.PureComponent {
     constructor(props) {

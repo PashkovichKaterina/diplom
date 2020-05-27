@@ -1,9 +1,9 @@
 import React from 'react';
 import "./question.css"
-import Util from "../../service/Util";
+import Util from "../../logic/Util";
 import {faQuestionCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Message from "../../service/Message";
+import Message from "../../logic/Message";
 
 const QuestionHeader = (props) => {
     const {topicTitle, questionTitle, questionType} = props;
@@ -11,7 +11,7 @@ const QuestionHeader = (props) => {
         <div>
             <div className="question-header">
                 <span>{questionTitle && questionTitle.toUpperCase()}</span>
-                <span title={Message.getString(questionType)}>
+                <span title={Message.getString(questionType)}>&nbsp;
                         <FontAwesomeIcon icon={faQuestionCircle} className="question-icon"/>
                     </span>
             </div>

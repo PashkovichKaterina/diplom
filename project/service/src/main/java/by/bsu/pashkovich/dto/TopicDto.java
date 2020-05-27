@@ -2,17 +2,16 @@ package by.bsu.pashkovich.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopicDto {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private String title;
     private Long courseNumber;
-    private List<TaskDto> tasks;
+    private List<TaskDto> tasks = new ArrayList<>();
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String status;
-
     public TopicDto() {
     }
 

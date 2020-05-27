@@ -30,8 +30,8 @@ class Util {
         let c = 0;
         while (c * count < array.length) {
             let ar = [];
-            for (let i = 0; i < count && i < array.length; i++) {
-                ar[i] = array[i + c];
+            for (let i = 0, j = 0; i < count && i + (count * c) < array.length; i++, j++) {
+                ar[j] = array[i + (count * c)];
             }
             c++;
             this.shuffleArray(ar);
@@ -39,6 +39,44 @@ class Util {
         }
         array.length = 0;
         array.push(...result);
+    }
+
+    getTaskDeclension(number) {
+        const lastNumber = number % 10;
+        let result;
+        switch (lastNumber) {
+            case 1:
+                result = "задание";
+                break;
+            case 2:
+            case 3:
+            case 4:
+                result = "задания";
+                break;
+            default:
+                result = "заданий";
+                break;
+        }
+        return result;
+    }
+
+    getQuestionDeclension(number) {
+        const lastNumber = number % 10;
+        let result;
+        switch (lastNumber) {
+            case 1:
+                result = "вопрос";
+                break;
+            case 2:
+            case 3:
+            case 4:
+                result = "вопроса";
+                break;
+            default:
+                result = "вопросов";
+                break;
+        }
+        return result;
     }
 }
 

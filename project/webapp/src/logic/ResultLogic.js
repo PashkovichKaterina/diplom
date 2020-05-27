@@ -1,11 +1,15 @@
 class ResultLogic {
-    calculateResultOfCorrectAnswer(correctAnswerCount, questionCount) {
-        return (correctAnswerCount * 100 / questionCount).toFixed(2);
+    calculateResult(correctAnswerCount, wrongAnswerCount, questionCount) {
+        const result = ((correctAnswerCount - wrongAnswerCount) / questionCount) * 100;
+        return result < 0 ? 0 : result.toFixed(2);
     }
 
-    calculateResultOfWrongAnswer(wrongAnswerCount, questionCount) {
-        const result = ((questionCount - wrongAnswerCount) / questionCount) * 100;
-        return result < 0 ? 0 : result.toFixed(2);
+    calculateTopicScore(tasks) {
+        let sum = 0;
+        for (let i = 0; i < tasks.length; i++) {
+            sum += tasks[i].value;
+        }
+        return (sum / tasks.length).toFixed(2);
     }
 
     isValidPrintedAnswer(userAnswer, correctAnswer) {

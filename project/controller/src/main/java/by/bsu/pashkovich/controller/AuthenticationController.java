@@ -14,10 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/english2C")
 public class AuthenticationController {
-    private static final String JWT_TYPE = "type";
-    private static final String TOKEN = "token";
-    private static final String SIGNUP_EXCEPTION = "signupException";
-
     private UserService userService;
 
     @Autowired
@@ -34,7 +30,7 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody UserDto userDto) {
         UserDto createdUser = userService.signup(userDto);
-        return new ResponseEntity<>(createdUser, HttpStatus.OK);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/refreshToken")

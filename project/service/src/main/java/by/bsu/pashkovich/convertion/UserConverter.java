@@ -14,6 +14,7 @@ public class UserConverter {
         User user = null;
         if (userDto != null) {
             user = new User();
+            user.setId(userDto.getId());
             user.setLogin(userDto.getLogin());
             user.setEmail(userDto.getEmail());
             user.setPassword(userDto.getPassword());

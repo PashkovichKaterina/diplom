@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user_details")
-public class Student extends User {
+public class Student extends User implements Comparable<Student> {
     @Column
     private String name;
 
@@ -36,5 +36,13 @@ public class Student extends User {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        int compare = surname.compareTo(o.surname);
+        compare = compare == 0 ? name.compareTo(o.name) : compare;
+        compare = compare == 0 ? getId().compareTo(o.getId()) : compare;
+        return compare;
     }
 }

@@ -15,22 +15,31 @@ import StudentRoute from "../route/StudentRoute";
 import Error404 from "../general/Error404";
 import QuestionContainer from "../question/QuestionContainer";
 import StudentFormContainer from "../authentication/StudentFormContainer";
+import AddTopicFormContainer from "../admin/AddTopicFormContainer";
+import AdminPanel from "../admin/AdminPanel";
+import AdminRoute from "../route/AdminRoute";
+import ResultTableContainer from "../admin/ResultTableContainer";
 
 function App() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/404" render={() => <Error404/>}/>
+                <AdminRoute exact component={ResultTableContainer} path="/topics/:topicId"/>
+                <AdminRoute exact component={AddTopicFormContainer} path="/topics/add"/>
+                <AdminRoute exact component={AdminPanel} path="/admin"/>
 
-                <StudentRoute component={StudentFormContainer} path="/users/:userId/edit"/>
-                <StudentRoute component={ProfileContainer} path="/users/:userId"/>
-                <StudentRoute component={QuestionContainer} path="/topics/:topicId/tasks/:taskId"/>
-                <StudentRoute component={TasksContainer} path="/topics/:id/tasks"/>
-                <StudentRoute component={TopicsContainer} path="/topics"/>
+                <StudentRoute exact component={StudentFormContainer} path="/users/:userId/edit"/>
+                <StudentRoute exact component={ProfileContainer} path="/users/:userId"/>
+                <StudentRoute exact component={QuestionContainer} path="/topics/:topicId/tasks/:taskId"/>
+                <StudentRoute exact component={TasksContainer} path="/topics/:id/tasks"/>
+                <StudentRoute exact component={TopicsContainer} path="/topics"/>
 
-                <NonAuthenticationRoute component={LoginContainer} path="/login"/>
-                <NonAuthenticationRoute component={SignupContainer} path="/signup"/>
-                <NonAuthenticationRoute component={MainPageContainer} path="/"/>
+                <NonAuthenticationRoute exact component={LoginContainer} path="/login"/>
+                <NonAuthenticationRoute exact component={SignupContainer} path="/signup"/>
+                <NonAuthenticationRoute exact component={MainPageContainer} path="/"/>
+
+                <Route component={Error404}/>
+
             </Switch>
         </BrowserRouter>
     );

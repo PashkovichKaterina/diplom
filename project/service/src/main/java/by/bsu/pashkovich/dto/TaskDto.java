@@ -4,17 +4,16 @@ import by.bsu.pashkovich.dto.question.QuestionDto;
 import by.bsu.pashkovich.entity.TaskType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDto {
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private String title;
     private TaskType type;
-    private List<QuestionDto> questions;
+    private List<QuestionDto> questions = new ArrayList<>();
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String status;
-    private Double value;
+    private Double lastValue;
 
     public TaskDto() {
     }
@@ -35,12 +34,8 @@ public class TaskDto {
         return questions;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public Double getValue() {
-        return value;
+    public Double getLastValue() {
+        return lastValue;
     }
 
     public void setId(Long id) {
@@ -59,11 +54,7 @@ public class TaskDto {
         this.questions = questions;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
+    public void setLastValue(Double lastValue) {
+        this.lastValue = lastValue;
     }
 }

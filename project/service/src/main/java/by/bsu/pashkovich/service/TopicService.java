@@ -1,10 +1,10 @@
 package by.bsu.pashkovich.service;
 
 import by.bsu.pashkovich.dto.PageDto;
+import by.bsu.pashkovich.dto.score.ResultTableDto;
+import by.bsu.pashkovich.dto.score.ScoreDto;
 import by.bsu.pashkovich.dto.TaskDto;
 import by.bsu.pashkovich.dto.TopicDto;
-import by.bsu.pashkovich.entity.Topic;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,7 +17,9 @@ public interface TopicService {
 
     List<TopicDto> getTopicsByTitle(String topicTitle);
 
-    TaskDto getTopicTask(Long taskId);
+    TaskDto getTopicTask(Long topicId, Long taskId);
 
     List<TopicDto> getInProgressTopics(Long userId);
+
+    List<ResultTableDto> getScoresByTopic(Long topicId);
 }

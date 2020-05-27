@@ -1,16 +1,18 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import AuthorizationLogic from "../../service/AuthorizationLogic";
-import RedirectLogic from "../../service/RedirectLogic";
+import AuthorizationLogic from "../../logic/AuthorizationLogic";
+import RedirectLogic from "../../logic/RedirectLogic";
 
-const StudentRoute = ({component: Component}) => {
+const AdminRoute = ({component: Component, path: path}) => {
     return (
-        <Route render={props => (
+        <Route exact path={path} render={props => (
             AuthorizationLogic.isAdminLogin()
-                ? <Component {...props} />
+                ? <Component {...props}/>
+                : AuthorizationLogic.isUserLogin()
+                ? RedirectLogic.redirectToAdminPanel()
                 : RedirectLogic.redirectToLogin()
         )}/>
     );
 };
 
-export default StudentRoute;
+export default AdminRoute;

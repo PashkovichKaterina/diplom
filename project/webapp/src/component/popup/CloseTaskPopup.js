@@ -11,11 +11,11 @@ const CloseTaskPopup = (props) => {
                     При завершении задания будет сохранен текущий результат и повторно пройти задание невозможно.
                 </div>
                 <div className="finish-task-popup-result">Ваш текущий результат: {currentResult}%</div>
+                <button className="finish-task-popup-button-active" onClick={handleCancelCloseTask}>
+                    Продолжить выполнение
+                </button>
                 <button className="finish-task-popup-button" onClick={finishTask}>
                     Закончить задание
-                </button>
-                <button className="finish-task-popup-button" onClick={handleCancelCloseTask}>
-                    Продолжить выполнение
                 </button>
             </div>
         </div>

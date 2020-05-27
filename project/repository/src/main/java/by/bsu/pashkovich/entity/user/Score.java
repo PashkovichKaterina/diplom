@@ -2,12 +2,8 @@ package by.bsu.pashkovich.entity.user;
 
 import by.bsu.pashkovich.entity.Task;
 import by.bsu.pashkovich.entity.Topic;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,43 +12,19 @@ public class Score {
     @EmbeddedId
     private ScoreKey scoreKey = new ScoreKey();
 
-    @Column(name = "passage_date")
-    @UpdateTimestamp
-    private LocalDateTime passageDate;
-
     @Column
     private Double value;
+
+    @PrePersist
+    public void prePersist() {
+        scoreKey.setPassageDate(LocalDateTime.now());
+    }
 
     public Score() {
     }
 
-    public ScoreKey getScoreKey() {
-        return scoreKey;
-    }
-
-
-    public LocalDateTime getPassageDate() {
-        return passageDate;
-    }
-
-    public Double getValue() {
-        return value;
-    }
-
-    public void setPassageDate(LocalDateTime passageDate) {
-        this.passageDate = passageDate;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    public void setScoreKey(ScoreKey scoreKey) {
-        this.scoreKey = scoreKey;
-    }
-
-    public User getUser() {
-        return scoreKey.getUser();
+    public Student getStudent() {
+        return scoreKey.getStudent();
     }
 
     public Topic getTopic() {
@@ -63,15 +35,36 @@ public class Score {
         return scoreKey.getTask();
     }
 
-    public void setUser(User user) {
-        this.scoreKey.setUser(user);
+    public LocalDateTime getPassageDate() {
+        return scoreKey.getPassageDate();
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setStudent(Student student) {
+        scoreKey.setStudent(student);
     }
 
     public void setTask(Task task) {
-        this.scoreKey.setTask(task);
+        scoreKey.setTask(task);
     }
 
     public void setTopic(Topic topic) {
-        this.scoreKey.setTopic(topic);
+        scoreKey.setTopic(topic);
+    }
+
+    public void setPassageDate(LocalDateTime passageDate) {
+        scoreKey.setPassageDate(passageDate);
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + scoreKey.toString() + "VALUE=" + value;
     }
 }

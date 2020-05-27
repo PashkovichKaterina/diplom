@@ -3,12 +3,12 @@ import "./authentication.css"
 import InputElement from "./InputElement";
 import AuthenticationButton from "./AuthenticationButton";
 import userImage from "../../image/user.png";
-import RedirectLogic from "../../service/RedirectLogic";
+import RedirectLogic from "../../logic/RedirectLogic";
 import InformPopup from "../popup/InformPopup";
 import UserService from "../../service/UserService";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
-import FormValidator from "../../service/FormValidator";
-import Util from "../../service/Util";
+import AuthorizationLogic from "../../logic/AuthorizationLogic";
+import FormValidator from "../../logic/FormValidator";
+import Util from "../../logic/Util";
 
 class StudentFormContainer extends React.PureComponent {
     constructor(props) {
@@ -61,7 +61,7 @@ class StudentFormContainer extends React.PureComponent {
         const {name, surname} = this.state;
         UserService.editStudentData(name, surname)
             .then(() => AuthorizationLogic.refreshToken())
-            .then(()=>RedirectLogic.redirectToUserProfile());
+            .then(() => RedirectLogic.redirectToUserProfile());
     };
 
     handleCancelClick = () => {
@@ -107,7 +107,7 @@ class StudentFormContainer extends React.PureComponent {
                                                       isSubmitEnable={FormValidator.isValidPersonalDataForm(name, surname)}/>
                             </form>
                         </div>
-                        <div className="col-lg-6 p-0 align-self-center text-center">
+                        <div className="col-lg-6 p-0 align-self-center text-center d-sm-none d-md-none d-none d-lg-block">
                             <img src={userImage} className="auth-image"/>
                         </div>
                     </div>

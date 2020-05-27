@@ -3,11 +3,11 @@ import "./authentication.css"
 import authImage from "../../image/auth.png"
 import InputElement from "./InputElement";
 import AuthenticationButton from "./AuthenticationButton";
-import Util from "../../service/Util";
-import Message from "../../service/Message";
-import FormValidator from "../../service/FormValidator";
-import RedirectLogic from "../../service/RedirectLogic";
-import AuthorizationLogic from "../../service/AuthorizationLogic";
+import Util from "../../logic/Util";
+import Message from "../../logic/Message";
+import FormValidator from "../../logic/FormValidator";
+import RedirectLogic from "../../logic/RedirectLogic";
+import AuthorizationLogic from "../../logic/AuthorizationLogic";
 import AuthenticationService from "../../service/AuthenticationService";
 import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";
 
@@ -140,7 +140,7 @@ class SignupContainer extends React.PureComponent {
                                                       errorMessage={Message.getString(errorCode)}/>
                             </form>
                         </div>
-                        <div className="col-lg-6 p-0 align-self-center text-center">
+                        <div className="col-lg-6 p-0 align-self-center text-center d-sm-none d-md-none d-none d-lg-block">
                             <img src={authImage} className="auth-image"/>
                         </div>
                     </div>
