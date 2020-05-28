@@ -78,4 +78,31 @@ public class User {
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return (id == null ? id == user.id : id.equals(user.id))
+                && (login == null ? login == user.login : login.equals(user.login))
+                && (email == null ? email == user.email : email.equals(user.email))
+                && (role == null ? role == user.role : role.equals(user.role));
+    }
+
+    @Override
+    public int hashCode() {
+        return (id == null ? 0 : id.hashCode()) + (login == null ? 0 : login.hashCode())
+                + (email == null ? 0 : email.hashCode()) + (role == null ? 0 : role.hashCode())
+                + (refreshToken == null ? 0 : refreshToken.hashCode());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "@ID=" + id + ";LOGIN=" + login + ";EMAIL=" + email + ";ROLE=" + role;
+    }
 }

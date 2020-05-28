@@ -38,4 +38,27 @@ public class ChooseQuestionAnswerKey implements Serializable {
     public void setOption(ChooseQuestionOption option) {
         this.option = option;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        ChooseQuestionAnswerKey key = (ChooseQuestionAnswerKey) obj;
+        return (question == null ? question == key.question : question.equals(key.question))
+                && (option == null ? option == key.option : option.equals(key.option));
+    }
+
+    @Override
+    public int hashCode() {
+        return (question == null ? 0 : question.hashCode()) + (option == null ? 0 : option.hashCode());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + ";QUESTION:" + question + ";OPTION:" + option;
+    }
 }

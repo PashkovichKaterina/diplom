@@ -71,4 +71,30 @@ public class Topic {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Topic topic = (Topic) obj;
+        return (id == null ? id == topic.id : id.equals(topic.id))
+                && (title == null ? title == topic.title : title.equals(topic.title))
+                && (course == null ? course == topic.course : course.equals(topic.course))
+                && (tasks == null ? tasks == topic.tasks : tasks.equals(topic.tasks));
+    }
+
+    @Override
+    public int hashCode() {
+        return (id == null ? 0 : id.hashCode()) + (title == null ? 0 : title.hashCode())
+                + (course == null ? 0 : course.hashCode()) + (tasks == null ? 0 : tasks.hashCode());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "@ID=" + id + ";TITLE=" + title + ";COURSE:" + course + ";TASKS:" + tasks;
+    }
 }

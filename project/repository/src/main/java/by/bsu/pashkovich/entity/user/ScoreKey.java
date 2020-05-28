@@ -67,8 +67,30 @@ public class ScoreKey implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        ScoreKey scoreKey = (ScoreKey) obj;
+        return (student == null ? student == scoreKey.student : student.equals(scoreKey.student))
+                && (topic == null ? topic == scoreKey.topic : topic.equals(scoreKey.topic))
+                && (task == null ? task == scoreKey.task : task.equals(scoreKey.task))
+                && (passageDate == null ? passageDate == scoreKey.passageDate : passageDate.equals(scoreKey.passageDate));
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (student == null ? 0 : student.hashCode()) + (topic == null ? 0 : topic.hashCode())
+                + (task == null ? 0 : task.hashCode()) + (passageDate == null ? 0 : passageDate.hashCode());
+    }
+
+    @Override
     public String toString() {
-        return getClass().getName() + "@STUDENT:" + student.toString() + "TOPIC:" + topic.toString()
-                + "@TASK:" + task.toString();
+        return getClass().getName() + "@STUDENT:" + student.toString() + ";TOPIC:" + topic.toString()
+                + ";TASK:" + task.toString() + ";PASSAGE_DATE=" + passageDate;
     }
 }

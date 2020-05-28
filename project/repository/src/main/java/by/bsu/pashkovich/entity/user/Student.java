@@ -45,4 +45,27 @@ public class Student extends User implements Comparable<Student> {
         compare = compare == 0 ? getId().compareTo(o.getId()) : compare;
         return compare;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Student student = (Student) obj;
+        return super.equals(student) && (name == null ? name == student.name : name.equals(student.name))
+                && (surname == null ? surname == student.surname : surname.equals(student.surname));
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + (name == null ? 0 : name.hashCode()) + (surname == null ? 0 : surname.hashCode());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ";SURNAME=" + surname + ";NAME=" + name;
+    }
 }

@@ -61,4 +61,30 @@ public class Task {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Task task = (Task) obj;
+        return (id == null ? id == task.id : id.equals(task.id))
+                && (title == null ? title == task.title : title.equals(task.title))
+                && (type == null ? type == task.type : type.equals(task.type))
+                && (questions == null ? questions == task.questions : questions.equals(task.questions));
+    }
+
+    @Override
+    public int hashCode() {
+        return (id == null ? 0 : id.hashCode()) + (title == null ? 0 : title.hashCode())
+                + (type == null ? 0 : type.hashCode()) + (questions == null ? 0 : questions.hashCode());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "@ID=" + id + ";TITLE=" + title + ";TYPE=" + type + ";QUESTIONS:" + questions;
+    }
 }

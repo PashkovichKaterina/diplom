@@ -20,4 +20,26 @@ public class Question {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Question question = (Question) obj;
+        return (id == null ? id == question.id : id.equals(question.id));
+    }
+
+    @Override
+    public int hashCode() {
+        return (id == null ? 0 : id.hashCode());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "@ID=" + id;
+    }
 }

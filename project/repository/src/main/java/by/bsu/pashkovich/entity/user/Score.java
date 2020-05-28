@@ -64,6 +64,24 @@ public class Score {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Score score = (Score) obj;
+        return (scoreKey == null ? scoreKey == score.scoreKey : scoreKey.equals(score.scoreKey))
+                && (value == null ? value == score.value : value.equals(score.value));
+    }
+
+    @Override
+    public int hashCode() {
+        return (scoreKey == null ? 0 : scoreKey.hashCode()) + (value == null ? 0 : value.hashCode());
+    }
+
+    @Override
     public String toString() {
         return getClass().getName() + scoreKey.toString() + "VALUE=" + value;
     }
