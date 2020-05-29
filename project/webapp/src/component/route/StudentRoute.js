@@ -12,7 +12,7 @@ const StudentRoute = ({component: Component, path: path}) => {
                 ? RedirectLogic.redirectToAdminPanel()
                 : RedirectLogic.redirectToLogin()
         )}/>
-    );
+    )
 };
 
 export default StudentRoute;

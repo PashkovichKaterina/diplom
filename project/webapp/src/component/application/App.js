@@ -24,6 +24,7 @@ function App() {
     return (
         <BrowserRouter>
             <Switch>
+                <Route component={AddTopicFormContainer}/>
                 <AdminRoute exact component={ResultTableContainer} path="/topics/:topicId"/>
                 <AdminRoute exact component={AddTopicFormContainer} path="/topics/add"/>
                 <AdminRoute exact component={AdminPanel} path="/admin"/>

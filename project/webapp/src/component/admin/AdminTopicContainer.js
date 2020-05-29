@@ -26,9 +26,9 @@ class AdminTopicContainer extends React.PureComponent {
                     <div className="col-lg-3 text-center align-self-center">
                         <button className="admin-panel-button" onClick={this.handleScoresView}>
                             Просмотреть результаты
-                        </button>
+                        </button>{/*
                         <button className="admin-panel-button">Редактировать</button>
-                        <button className="admin-panel-button">Удалить</button>
+                        <button className="admin-panel-button">Удалить</button>*/}
                     </div>
                 </div>
             </div>

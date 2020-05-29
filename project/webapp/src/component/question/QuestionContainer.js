@@ -9,7 +9,6 @@ import QuestionHeader from "./QuestionHeader";
 import CloseTaskPopup from "../popup/CloseTaskPopup";
 import ResultLogic from "../../logic/ResultLogic";
 import RedirectLogic from "../../logic/RedirectLogic";
-
 import ResultPopup from "../popup/ResultPopup";
 import AuthorizationLogic from "../../logic/AuthorizationLogic";
 import EmptyDataPopup from "../popup/EmptyDataPopup";
@@ -61,6 +60,18 @@ class QuestionContainer extends React.PureComponent {
                 });
         } else {
             this.setState({isShowEmptyDataPopup: true});
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const panel = document.getElementsByClassName("result-panel");
+        const contentHeight = document.querySelector("#root div").scrollHeight;
+        const panelHeight = (panel && panel.length > 0) && panel[0].scrollHeight;
+        const screenHeight = window.innerHeight;
+        if (Number(contentHeight) + Number(panelHeight) < Number(screenHeight)) {
+            document.getElementById("root").style.paddingBottom = '0';
+        } else {
+            document.getElementById("root").style.paddingBottom = '200px';
         }
     }
 

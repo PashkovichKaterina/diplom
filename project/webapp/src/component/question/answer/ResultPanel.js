@@ -1,6 +1,6 @@
 import React from 'react';
 import "../question.css"
-import "../../../style/color.css"
+import "../../../color.css"
 import {faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

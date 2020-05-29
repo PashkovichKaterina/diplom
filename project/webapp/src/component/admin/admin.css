@@ -120,9 +120,9 @@ th {
 }
 
 table {
-    margin: 50px 0;
     background-color: white;
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
+    margin: 0!important;
 }
 
 tr {
@@ -146,7 +146,7 @@ li {
     background-color: white;
     border-radius: 4px;
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px 0;
+    padding: 20px 0;
 }
 
 .admin-panel-button {
@@ -168,4 +168,9 @@ li {
 
 .admin-panel-message {
     font-size: 20px;
+}
+
+.table-wrapper{
+    overflow-x: auto;
+    margin: 40px 0;
 }

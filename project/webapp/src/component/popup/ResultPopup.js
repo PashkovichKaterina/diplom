@@ -1,6 +1,6 @@
 import React from 'react';
 import "./popup.css"
-import "../../style/color.css";
+import "../../color.css";
 import Util from "../../logic/Util";
 import ResultLogic from "../../logic/ResultLogic";
 

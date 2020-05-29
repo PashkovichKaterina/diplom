@@ -44,12 +44,14 @@ class ResultTableContainer extends React.PureComponent {
                 <HeaderContainer/>
 
                 <div className="container">
-                    <table className="table table-bordered table-hover text-center">
-                        <ResultTableHeader topic={topic}/>
-                        <tbody>
-                        {rows}
-                        </tbody>
-                    </table>
+                    <div className="table-wrapper">
+                        <table className="table table-bordered table-hover mx-auto text-center">
+                            <ResultTableHeader topic={topic}/>
+                            <tbody>
+                            {rows}
+                            </tbody>
+                        </table>
+                    </div>
                     <ResultTaskList topic={topic}/>
                 </div>
 

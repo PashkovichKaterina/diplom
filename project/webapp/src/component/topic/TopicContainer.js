@@ -1,6 +1,6 @@
 import React from 'react';
 import "./topic.css"
-import "../../style/color.css"
+import "../../color.css"
 import Util from "../../logic/Util";
 import {faClock} from "@fortawesome/free-solid-svg-icons";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
