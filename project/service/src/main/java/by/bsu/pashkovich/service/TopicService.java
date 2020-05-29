@@ -2,7 +2,6 @@ package by.bsu.pashkovich.service;
 
 import by.bsu.pashkovich.dto.PageDto;
 import by.bsu.pashkovich.dto.score.ResultTableDto;
-import by.bsu.pashkovich.dto.score.ScoreDto;
 import by.bsu.pashkovich.dto.TaskDto;
 import by.bsu.pashkovich.dto.TopicDto;
 

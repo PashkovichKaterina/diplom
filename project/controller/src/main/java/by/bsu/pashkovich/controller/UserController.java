@@ -4,6 +4,7 @@ import by.bsu.pashkovich.dto.score.ScoreDto;
 import by.bsu.pashkovich.dto.UserDto;
 import by.bsu.pashkovich.service.TopicService;
 import by.bsu.pashkovich.service.UserService;
+import by.bsu.pashkovich.validation.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private UserService userService;
     private TopicService topicService;
+    private UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService, TopicService topicService) {
+    public UserController(UserService userService, TopicService topicService, UserValidator userValidator) {
         this.userService = userService;
         this.topicService = topicService;
+        this.userValidator = userValidator;
     }
 
     @PutMapping("/{id}")

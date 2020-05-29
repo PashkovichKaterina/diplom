@@ -12,12 +12,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.stream.Stream;
+
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_ENDPOINT = "/english2C/login";
     private static final String SIGNUP_ENDPOINT = "/english2C/signup";
     private static final String REFRESH_TOKEN_ENDPOINT = "/english2C/refreshToken";
+    private static final String SCORES_BY_TOPICS = "/english2C/topics";
 
     private final JwtTokenProvider jwtTokenProvider;
     private final SecurityUserDetailsService userDetailsService;
@@ -52,11 +55,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(SIGNUP_ENDPOINT).permitAll()
                 .antMatchers(REFRESH_TOKEN_ENDPOINT).permitAll()
 
-
-
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(SIGNUP_ENDPOINT).permitAll()
-                .antMatchers(REFRESH_TOKEN_ENDPOINT).permitAll()
 
                 .anyRequest().permitAll()
                 .and()

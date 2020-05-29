@@ -35,15 +35,11 @@ public class UserServiceImpl implements UserService {
     private ScoreRepository scoreRepository;
     private ScoreConverter scoreConverter;
 
-    private TopicRepository topicRepository;
-    private TaskRepository taskRepository;
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager,
                            JwtTokenProvider jwtTokenProvider, BCryptPasswordEncoder bCryptPasswordEncoder,
                            UserConverter userConverter, ScoreRepository scoreRepository,
-                           StudentRepository studentRepository, ScoreConverter scoreConverter,
-                           TopicRepository topicRepository, TaskRepository taskRepository) {
+                           StudentRepository studentRepository, ScoreConverter scoreConverter) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -52,9 +48,6 @@ public class UserServiceImpl implements UserService {
         this.scoreRepository = scoreRepository;
         this.studentRepository = studentRepository;
         this.scoreConverter = scoreConverter;
-
-        this.topicRepository = topicRepository;
-        this.taskRepository = taskRepository;
     }
 
     @Override

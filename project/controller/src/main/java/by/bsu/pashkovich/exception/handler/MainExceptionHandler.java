@@ -4,6 +4,8 @@ import by.bsu.pashkovich.dto.ErrorResponse;
 import by.bsu.pashkovich.exception.authentication.AuthenticationException;
 import by.bsu.pashkovich.exception.authentication.RefreshTokenException;
 import by.bsu.pashkovich.exception.authentication.SignupException;
+import by.bsu.pashkovich.exception.entity.EntityIsAlreadyExistsException;
+import by.bsu.pashkovich.exception.entity.NoSuchEntityException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +32,17 @@ public class MainExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity handleAuthenticationException(AuthenticationException e, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse("authenticationException", "Invalid login or password");
         return handleExceptionInternal(e, errorResponse, new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    }
+
+    @ExceptionHandler(value = {NoSuchEntityException.class})
+    public ResponseEntity handleNoSuchEntityException(NoSuchEntityException e, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse("noSuchEntity", e.getMessage());
+        return handleExceptionInternal(e, errorResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(value = {EntityIsAlreadyExistsException.class})
+    public ResponseEntity handleEntityIsAlreadyExistsException(EntityIsAlreadyExistsException e, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse("existEntity", e.getMessage());
+        return handleExceptionInternal(e, errorResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }
