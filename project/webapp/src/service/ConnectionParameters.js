@@ -15,6 +15,7 @@ export const TOPICS_BY_TITLE_URL = "/topics?topicTitle={0}";
 export const TOPICS_BY_ID_URL = "/topics/{0}";
 export const TOPIC_URL = "/topics/{0}/tasks";
 export const TASK_URL = "/topics/{0}/tasks/{1}";
+export const ADD_TOPIC_FORM_URL = "/topics/add";
 
 export const POST_METHOD = "POST";
 export const GET_METHOD = "GET";

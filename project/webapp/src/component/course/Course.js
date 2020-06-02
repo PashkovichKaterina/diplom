@@ -3,7 +3,7 @@ import "./course.css"
 import TopicContainer from "../topic/TopicContainer";
 
 const Course = (props) => {
-    const {topics, isMore, courseNumber} = props;
+    const {topics, isMore, courseNumber, handleAddMoreClick} = props;
     const topicList = topics.map(topic =>
         <TopicContainer key={topic.id}
                         id={topic.id}
@@ -13,7 +13,9 @@ const Course = (props) => {
                         status={topic.status}/>
     );
     const className = `course-all-${courseNumber}`;
-    const moreButton = isMore && <span className={className}>Смотреть все &#8250;</span>;
+    const moreButton = isMore && <span className={className}
+                                       course_number={courseNumber}
+                                       onClick={handleAddMoreClick}>Смотреть все &#8250;</span>;
     return (
         <div className="container">
             <div className="course-wrapper">

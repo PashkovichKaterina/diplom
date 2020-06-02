@@ -1,6 +1,6 @@
 package by.bsu.pashkovich.dto.question;
 
-import by.bsu.pashkovich.dto.TaskDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = AnswerQuestionDto.class, name = "answer")
 })
 public class QuestionDto {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     public QuestionDto() {

@@ -44,6 +44,26 @@ class ResultTableContainer extends React.PureComponent {
                 <HeaderContainer/>
 
                 <div className="container">
+                    <div className="admin-panel-header text-left">HEALTHY AND HAPPY</div>
+                    <div className="filter">
+                        <label className="d-block ml-2 mt-4">Поиск по фамилии студента</label>
+                        <input type="text" placeholder="Введите фамилию студента..." className="d-inline-block "/>
+                        <input type="button" value="Поиск" className="d-inline-block"/>
+
+                        <label className="d-block ml-2 mt-4">Фильтр по дате</label>
+                        <div>
+                            <div className="d-inline-block mr-5">
+                                с <input type="date"/>
+                            </div>
+                            <div className="d-inline-block">
+                                по <input type="date"/>
+                            </div>
+                            <div className="d-inline-block">
+                                <input type="button" value="Поиск" className="d-inline-block"/>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="table-wrapper">
                         <table className="table table-bordered table-hover mx-auto text-center">
                             <ResultTableHeader topic={topic}/>

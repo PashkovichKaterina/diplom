@@ -1,10 +1,10 @@
 import AuthorizationLogic from "../logic/AuthorizationLogic";
 import {
     APP_URL, GET_METHOD,
-    PORT, TASK_URL,
+    PORT, POST_METHOD, TASK_URL, TOPIC_URL,
     TOPICS_BY_COURSE_URL,
     TOPICS_BY_COURSE_WITH_PAGINATION_URL, TOPICS_BY_ID_URL,
-    TOPICS_BY_TITLE_URL
+    TOPICS_BY_TITLE_URL, TOPICS_URL
 } from "./ConnectionParameters";
 import Util from "../logic/Util";
 
@@ -21,10 +21,23 @@ class TopicService {
             })
     }
 
-    getTopicsByCourseNumber(courseNumber) {
+    getTopicsByCourseNumberWithPagination(courseNumber) {
         return AuthorizationLogic.checkToken()
             .then(() => {
                 return fetch(Util.format(PORT + APP_URL + TOPICS_BY_COURSE_WITH_PAGINATION_URL, courseNumber), {
+                    method: GET_METHOD,
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
+                    })
+                })
+            })
+    }
+
+    getTopicsByCourseNumber(courseNumber) {
+        return AuthorizationLogic.checkToken()
+            .then(() => {
+                return fetch(Util.format(PORT + APP_URL + TOPICS_BY_COURSE_URL, courseNumber), {
                     method: GET_METHOD,
                     headers: new Headers({
                         'Content-Type': 'application/json',
@@ -66,6 +79,20 @@ class TopicService {
                     headers: new Headers({
                         'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken()
                     })
+                });
+            })
+    }
+
+    createTopic(topic) {
+        return AuthorizationLogic.checkToken()
+            .then(() => {
+                return fetch(PORT + APP_URL + TOPICS_URL, {
+                    method: POST_METHOD,
+                    headers: new Headers({
+                        'Authorization': 'Bearer ' + AuthorizationLogic.getAccessToken(),
+                        'Content-Type': 'application/json',
+                    }),
+                    body: JSON.stringify(topic)
                 });
             })
     }

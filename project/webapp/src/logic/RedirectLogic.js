@@ -1,6 +1,7 @@
 import Util from "./Util";
 import AuthorizationLogic from "./AuthorizationLogic";
 import {
+    ADD_TOPIC_FORM_URL,
     EDIT_STUDENT_URL,
     LOGIN_URL,
     SIGNUP_URL,
@@ -60,6 +61,10 @@ class RedirectLogic {
 
     redirectToTopicScores(topicId) {
         this.redirect(Util.format(TOPICS_BY_ID_URL, topicId));
+    }
+
+    redirectToAddTopicForm() {
+        this.redirect(ADD_TOPIC_FORM_URL);
     }
 }
 

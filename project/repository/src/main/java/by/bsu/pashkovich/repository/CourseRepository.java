@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface CourseRepository extends CrudRepository<Course, Long> {
     @Query("select case when count(course)>0 then true else false end from Course course where course.number = :number")
     boolean existsByNumber(@Param("number") Long number);
+
+    @Query("select course from Course course where course.number = :number")
+    Course getByNumber(@Param("number") Long number);
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ChooseQuestionDto extends QuestionDto {
     private String questionTitle;
-    private List<ChooseQuestionAnswerDto> answers;
+    private List<ChooseQuestionOptionDto> answers;
 
     public ChooseQuestionDto() {
     }
@@ -13,7 +13,7 @@ public class ChooseQuestionDto extends QuestionDto {
         return questionTitle;
     }
 
-    public List<ChooseQuestionAnswerDto> getAnswers() {
+    public List<ChooseQuestionOptionDto> getAnswers() {
         return answers;
     }
 
@@ -21,7 +21,7 @@ public class ChooseQuestionDto extends QuestionDto {
         this.questionTitle = questionTitle;
     }
 
-    public void setAnswers(List<ChooseQuestionAnswerDto> answers) {
+    public void setAnswers(List<ChooseQuestionOptionDto> answers) {
         this.answers = answers;
     }
 }

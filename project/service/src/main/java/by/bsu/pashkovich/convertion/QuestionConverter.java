@@ -1,6 +1,10 @@
 package by.bsu.pashkovich.convertion;
 
+import by.bsu.pashkovich.dto.question.ChooseQuestionDto;
+import by.bsu.pashkovich.dto.question.ChooseQuestionOptionDto;
 import by.bsu.pashkovich.dto.question.QuestionDto;
+import by.bsu.pashkovich.entity.question.ChooseQuestion;
+import by.bsu.pashkovich.entity.question.ChooseQuestionOption;
 import by.bsu.pashkovich.entity.question.Question;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +17,12 @@ import java.util.stream.Collectors;
 public class QuestionConverter {
 
     private ModelMapper mapper;
+    private ChooseQuestionOptionConverter optionConverter;
 
     @Autowired
-    public QuestionConverter(ModelMapper mapper) {
+    public QuestionConverter(ModelMapper mapper, ChooseQuestionOptionConverter optionConverter) {
         this.mapper = mapper;
+        this.optionConverter = optionConverter;
     }
 
     public Question toQuestion(QuestionDto questionDto) {
@@ -30,6 +36,11 @@ public class QuestionConverter {
             } catch (Exception e) {
             }
             question = (Question) mapper.map(questionDto, questionClass);
+            if(questionDto.getClass()== ChooseQuestionDto.class){
+                ChooseQuestion chooseQuestion =(ChooseQuestion) question;
+                List<ChooseQuestionOptionDto> optionDtoList = ((ChooseQuestionDto) questionDto).getAnswers();
+                chooseQuestion.setOptions(optionConverter.toChooseQuestionOptionList(optionDtoList));
+            }
         }
         return question;
     }
@@ -45,6 +56,11 @@ public class QuestionConverter {
             } catch (Exception e) {
             }
             questionDto = (QuestionDto) mapper.map(question, questionClass);
+            if (question.getClass() == ChooseQuestion.class) {
+                ChooseQuestionDto chooseQuestionDto = (ChooseQuestionDto) questionDto;
+                List<ChooseQuestionOption> optionList = ((ChooseQuestion) question).getOptions();
+                chooseQuestionDto.setAnswers(optionConverter.toChooseQuestionOptionDtoList(optionList));
+            }
         }
         return questionDto;
     }

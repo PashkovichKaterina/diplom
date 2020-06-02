@@ -10,7 +10,10 @@ public class ChooseQuestionOption {
     private Long id;
 
     @Column
-    private String title;
+    private String value;
+
+    @Column
+    private Boolean status;
 
     public ChooseQuestionOption() {
     }
@@ -19,38 +22,28 @@ public class ChooseQuestionOption {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getValue() {
+        return value;
+    }
+
+    public Boolean getStatus() {
+        return status;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        ChooseQuestionOption option = (ChooseQuestionOption) obj;
-        return (id == null ? id == option.id : id.equals(option.id))
-                && (title == null ? title == option.title : title.equals(option.title));
-    }
-
-    @Override
-    public int hashCode() {
-        return (id == null ? 0 : id.hashCode()) + (title == null ? 0 : title.hashCode());
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        return getClass().getName() + "@ID=" + id + ";TITLE=" + title;
+        return "ID=" + id + "VALUE=" + value + "STATUS=" + status;
     }
 }

@@ -15,7 +15,7 @@ import StudentRoute from "../route/StudentRoute";
 import Error404 from "../general/Error404";
 import QuestionContainer from "../question/QuestionContainer";
 import StudentFormContainer from "../authentication/StudentFormContainer";
-import AddTopicFormContainer from "../admin/AddTopicFormContainer";
+import AddTopicFormContainer from "../admin/add/AddTopicFormContainer";
 import AdminPanel from "../admin/AdminPanel";
 import AdminRoute from "../route/AdminRoute";
 import ResultTableContainer from "../admin/ResultTableContainer";
@@ -24,9 +24,8 @@ function App() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route component={AddTopicFormContainer}/>
-                <AdminRoute exact component={ResultTableContainer} path="/topics/:topicId"/>
                 <AdminRoute exact component={AddTopicFormContainer} path="/topics/add"/>
+                <AdminRoute exact component={ResultTableContainer} path="/topics/:topicId"/>
                 <AdminRoute exact component={AdminPanel} path="/admin"/>
 
                 <StudentRoute exact component={StudentFormContainer} path="/users/:userId/edit"/>

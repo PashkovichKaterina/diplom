@@ -6,20 +6,15 @@ import by.bsu.pashkovich.dto.score.AdminScoreDto;
 import by.bsu.pashkovich.dto.score.ResultTableDto;
 import by.bsu.pashkovich.dto.TaskDto;
 import by.bsu.pashkovich.dto.TopicDto;
-import by.bsu.pashkovich.dto.question.ChooseQuestionAnswerDto;
-import by.bsu.pashkovich.dto.question.ChooseQuestionDto;
 import by.bsu.pashkovich.dto.score.ValueDto;
 import by.bsu.pashkovich.entity.Task;
 import by.bsu.pashkovich.entity.Topic;
-import by.bsu.pashkovich.entity.question.ChooseQuestionAnswer;
+import by.bsu.pashkovich.entity.question.ChooseQuestion;
+import by.bsu.pashkovich.entity.question.Question;
 import by.bsu.pashkovich.entity.user.Score;
 import by.bsu.pashkovich.entity.user.Student;
 import by.bsu.pashkovich.exception.entity.NoSuchEntityException;
-import by.bsu.pashkovich.repository.ChooseQuestionAnswerRepository;
-import by.bsu.pashkovich.repository.CourseRepository;
-import by.bsu.pashkovich.repository.ScoreRepository;
-import by.bsu.pashkovich.repository.TaskRepository;
-import by.bsu.pashkovich.repository.TopicRepository;
+import by.bsu.pashkovich.repository.*;
 import by.bsu.pashkovich.security.SecurityUser;
 import by.bsu.pashkovich.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -43,28 +39,50 @@ public class TopicServiceImpl implements TopicService {
     private CourseRepository courseRepository;
     private TaskRepository taskRepository;
     private TaskConverter taskConverter;
-    private ChooseQuestionAnswerRepository answerRepository;
-    private ChooseQuestionAnswerConverter answerConverter;
     private ScoreRepository scoreRepository;
     private PageConverter pageConverter;
     private UserConverter userConverter;
+    private QuestionRepository questionRepository;
+    private ChooseQuestionOptionRepository chooseQuestionOptionRepository;
 
     @Autowired
     public TopicServiceImpl(TopicRepository topicRepository, CourseRepository courseRepository,
                             TopicConverter topicConverter, TaskRepository taskRepository,
-                            TaskConverter taskConverter, ChooseQuestionAnswerRepository answerRepository,
-                            ChooseQuestionAnswerConverter answerConverter, ScoreRepository scoreRepository,
-                            PageConverter pageConverter, UserConverter userConverter) {
+                            TaskConverter taskConverter, ScoreRepository scoreRepository,
+                            PageConverter pageConverter, UserConverter userConverter,
+                            QuestionRepository questionRepository, ChooseQuestionOptionRepository chooseQuestionOptionRepository) {
         this.topicRepository = topicRepository;
         this.courseRepository = courseRepository;
         this.topicConverter = topicConverter;
         this.taskRepository = taskRepository;
         this.taskConverter = taskConverter;
-        this.answerRepository = answerRepository;
-        this.answerConverter = answerConverter;
         this.scoreRepository = scoreRepository;
         this.pageConverter = pageConverter;
         this.userConverter = userConverter;
+        this.questionRepository = questionRepository;
+        this.chooseQuestionOptionRepository = chooseQuestionOptionRepository;
+    }
+
+    @Override
+    @Transactional
+    public void save(TopicDto topicDto) {
+        Topic topic = topicConverter.toTopic(topicDto);
+        topic.setCourse(courseRepository.getByNumber(topic.getCourse().getNumber()));
+        List<Task> tasks = topic.getTasks();
+        for (Task task : tasks) {
+            List<Question> questions = task.getQuestions();
+            task.setQuestions(questions.stream().map(question -> {
+                if (question.getClass() == ChooseQuestion.class) {
+                    ChooseQuestion chooseQuestion = (ChooseQuestion) question;
+                    chooseQuestion.setOptions(chooseQuestion.getOptions().stream()
+                            .map(option->chooseQuestionOptionRepository.save(option))
+                    .collect(Collectors.toList()));
+                }
+                return questionRepository.save(question);
+            }).collect(Collectors.toList()));
+        }
+        topic.setTasks(tasks.stream().map(task -> taskRepository.save(task)).collect(Collectors.toList()));
+        topicRepository.save(topic);
     }
 
     @Override
@@ -72,9 +90,6 @@ public class TopicServiceImpl implements TopicService {
         Topic foundTopic = topicRepository.findById(id)
                 .orElseThrow(() -> new NoSuchEntityException(""));
         TopicDto foundTopicDto = topicConverter.toTopicDto(foundTopic);
-        setTopicStatus(foundTopicDto);
-        List<TaskDto> taskDtoList = foundTopicDto.getTasks().stream().peek(this::setAnswers).collect(Collectors.toList());
-        foundTopicDto.setTasks(taskDtoList);
         setTopicStatus(foundTopicDto);
         return foundTopicDto;
     }
@@ -112,9 +127,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public TaskDto getTopicTask(Long topicId, Long taskId) {
         Task foundTask = taskRepository.getTaskByIdAndTopicId(taskId);
-        TaskDto foundTaskDto = taskConverter.toTaskDto(foundTask);
-        setAnswers(foundTaskDto);
-        return foundTaskDto;
+        return taskConverter.toTaskDto(foundTask);
     }
 
     @Override
@@ -161,19 +174,6 @@ public class TopicServiceImpl implements TopicService {
             resultTableDtos.add(resultTableDto);
         }
         return resultTableDtos;
-    }
-
-    private void setAnswers(TaskDto taskDto) {
-        if (taskDto.getQuestions() != null && taskDto.getQuestions().size() > 0
-                && taskDto.getQuestions().get(0) instanceof ChooseQuestionDto) {
-            taskDto.setQuestions(taskDto.getQuestions().stream()
-                    .peek(questionDto -> {
-                        List<ChooseQuestionAnswer> answers = answerRepository.getByQuestionId(questionDto.getId());
-                        List<ChooseQuestionAnswerDto> answersDto = answerConverter.toChooseQuestionAnswerDtoList(answers);
-                        ((ChooseQuestionDto) questionDto).setAnswers(answersDto);
-                    })
-                    .collect(Collectors.toList()));
-        }
     }
 
     private List<TopicDto> setTopicsStatus(List<TopicDto> topicDtoList) {

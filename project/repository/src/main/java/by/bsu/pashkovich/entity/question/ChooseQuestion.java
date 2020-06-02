@@ -1,14 +1,21 @@
 package by.bsu.pashkovich.entity.question;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "choose_questions")
 public class ChooseQuestion extends Question {
     @Column(name = "question_title")
     private String questionTitle;
+
+    @OneToMany(cascade = {CascadeType.REMOVE})
+    @JoinColumn(name = "question_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<ChooseQuestionOption> options;
 
     public ChooseQuestion() {
     }
@@ -17,8 +24,16 @@ public class ChooseQuestion extends Question {
         return questionTitle;
     }
 
+    public List<ChooseQuestionOption> getOptions() {
+        return options;
+    }
+
     public void setQuestionTitle(String questionTitle) {
         this.questionTitle = questionTitle;
+    }
+
+    public void setOptions(List<ChooseQuestionOption> options) {
+        this.options = options;
     }
 
     @Override

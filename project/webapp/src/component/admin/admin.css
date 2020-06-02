@@ -6,7 +6,6 @@
 .add-topic-main-information {
     background-color: white;
     box-shadow: 2px 4px 18px rgba(0, 0, 0, 0.1);
-    padding: 20px 10px;
     margin-bottom: 40px;
     border-radius: 4px;
 }
@@ -18,21 +17,32 @@
 .add-topic-block-header {
     font-size: 20px;
     margin-bottom: 20px;
+    background: #40467d;
+    color: white;
+    padding: 15px 20px;
+}
+
+.add-topic-block {
+    padding: 10px 20px 30px;
+}
+
+.add-topic-question-block {
+    margin: 10px;
 }
 
 .add-topic-input {
     border: none;
     border-radius: 4px;
-    background-color: #F1F1F1;
+    background-color: white;
     padding: 5px 10px;
     font-size: 17px;
-    width: 100%;
+    width: 95%;
 }
 
 .course-options {
     border: none;
     border-radius: 4px;
-    background-color: #dfdfdf;
+    background-color: white;
     padding: 5px 10px;
     font-size: 17px;
     width: 100%;
@@ -50,6 +60,7 @@
 .add-topic-label {
     font-size: 17px;
     margin: 0;
+    font-weight: bold;
 }
 
 .add-task-header {
@@ -100,19 +111,14 @@
 }
 
 .add-task-block {
-    background-color: white;
-    padding: 20px 10px;
+    background-color: rgba(194, 201, 226, 0.67);
     margin-bottom: 40px;
     border-radius: 4px;
 }
 
-.add-topic-question-block {
-    margin-bottom: 10px;
-}
-
 .question-number {
-    text-align: right;
     font-size: 17px;
+    text-align: center;
 }
 
 th {
@@ -122,7 +128,7 @@ th {
 table {
     background-color: white;
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 tr {
@@ -161,6 +167,18 @@ li {
     font-size: 17px;
 }
 
+.admin-panel-button-active {
+    display: block;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    color: white;
+    background-color: #40467d;
+    padding: 7px 0;
+    margin: 10px 0;
+    font-size: 17px;
+}
+
 .admin-panel-topic-title {
     font-size: 25px;
     margin-bottom: 10px;
@@ -170,7 +188,81 @@ li {
     font-size: 20px;
 }
 
-.table-wrapper{
+.table-wrapper {
     overflow-x: auto;
     margin: 40px 0;
+}
+
+.delete-question-icon {
+    color: #818181;
+    font-size: 17px;
+}
+
+.delete-task-icon {
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.delete-question-icon:hover, .delete-task-icon:hover {
+    cursor: pointer;
+}
+
+i:hover {
+    cursor: pointer;
+}
+
+.search-admin-input {
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 17px;
+    padding: 10px;
+    width: 70%;
+}
+
+.search-block-wrapper {
+    padding: 10px;
+}
+
+.search-admin-button {
+    background-color: #FFB351;
+    display: inline-block;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 17px;
+    padding: 10px 20px;
+    margin: 0 10px;
+}
+
+.admin-button {
+    display: block;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: #40467d;
+    padding: 7px 10px;
+    margin: 10px 0;
+    font-size: 17px;
+}
+
+.admin-panel-block{
+    background: white;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-panel-header{
+    font-size: 25px;
+}
+
+.admin-panel-info{
+    font-size: 17px;
+    padding: 15px 0 30px;
+}
+
+input[type=date] {
+    background-color: white;
+    width: 345px;
 }

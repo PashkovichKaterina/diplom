@@ -33,7 +33,7 @@ class TopicsContainer extends React.PureComponent {
         let lastPage;
         let courseList = `courseList${courseNumber}`;
         let isMore = `isMore${courseNumber}`;
-        return TopicService.getTopicsByCourseNumber(courseNumber)
+        return TopicService.getTopicsByCourseNumberWithPagination(courseNumber)
             .then(response => {
                 const linkHeader = response.headers.get("link");
                 const pageInfo = PaginationLogic.getPageInfoFromLinkHeader(linkHeader);
@@ -55,27 +55,42 @@ class TopicsContainer extends React.PureComponent {
             .then(json => this.setState({searchedTopicList: json}));
     };
 
+    handleAddMoreClick = (event) => {
+        const courseNumber = event.target.getAttribute("course_number");
+        let courseList = `courseList${courseNumber}`;
+        let isMore = `isMore${courseNumber}`;
+        return TopicService.getTopicsByCourseNumber(courseNumber)
+            .then(response => response.json())
+            .then(json => this.setState({[courseList]: json, [isMore]: false}));
+    };
+
     render() {
+        console.log(this.state);
         const {courseList1, courseList2, courseList3, courseList4, isMore1, isMore2, isMore3, isMore4, searchValue, searchedTopicList} = this.state;
         const courses1 = (courseList1 && courseList1.length > 0) &&
             <Course courseNumber={1}
                     topics={courseList1}
-                    isMore={isMore1}/>;
+                    isMore={isMore1}
+                    handleAddMoreClick={this.handleAddMoreClick}/>;
         const courses2 = (courseList2 && courseList2.length > 0) &&
             <Course courseNumber={2}
                     topics={courseList2}
-                    isMore={isMore2}/>;
-        const courses3 = (courseList3 && courseList3.length > 0 ) &&
+                    isMore={isMore2}
+                    handleAddMoreClick={this.handleAddMoreClick}/>;
+        const courses3 = (courseList3 && courseList3.length > 0) &&
             <Course courseNumber={3}
                     topics={courseList3}
-                    isMore={isMore3}/>;
+                    isMore={isMore3}
+                    handleAddMoreClick={this.handleAddMoreClick}/>;
         const courses4 = (courseList4 && courseList4.length > 0) &&
             <Course courseNumber={4}
                     topics={courseList4}
-                    isMore={isMore4}/>;
+                    isMore={isMore4}
+                    handleAddMoreClick={this.handleAddMoreClick}/>;
         const searchedTopics = searchedTopicList &&
             searchedTopicList.map(topic =>
                 <TopicContainer key={topic.id}
+                                id={topic.id}
                                 title={topic.title}
                                 courseNumber={topic.courseNumber}
                                 taskCount={topic.tasks.length}

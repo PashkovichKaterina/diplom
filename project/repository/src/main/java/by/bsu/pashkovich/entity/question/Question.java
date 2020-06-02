@@ -1,10 +1,15 @@
 package by.bsu.pashkovich.entity.question;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "questions")
 @Inheritance(strategy = InheritanceType.JOINED)
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

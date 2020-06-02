@@ -46,6 +46,12 @@ public class TopicController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity createTopic(@RequestBody TopicDto topicDto){
+        topicService.save(topicDto);
+        return null;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity getTopicById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(topicService.getTopicById(id), HttpStatus.OK);

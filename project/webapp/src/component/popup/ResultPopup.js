@@ -7,7 +7,7 @@ import ResultLogic from "../../logic/ResultLogic";
 const ResultPopup = (props) => {
     const {
         topicTitle, questionTitle, questionCount, wrongAnswerCount, correctAnswerCount,
-        handleTaskFinish, courseNumber, questionType
+        handleTaskFinish, questionType
     } = props;
     const result = ResultLogic.calculateResult(correctAnswerCount, wrongAnswerCount, questionCount);
     const resultMessageElement = questionType === "MATCH"

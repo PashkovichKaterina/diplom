@@ -8,6 +8,8 @@ import by.bsu.pashkovich.dto.TopicDto;
 import java.util.List;
 
 public interface TopicService {
+    void save(TopicDto topicDto);
+
     TopicDto getTopicById(Long id);
 
     List<TopicDto> getTopicsByCourse(Long coursesNumber);

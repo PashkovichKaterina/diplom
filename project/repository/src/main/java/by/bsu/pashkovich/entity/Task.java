@@ -1,6 +1,8 @@
 package by.bsu.pashkovich.entity;
 
 import by.bsu.pashkovich.entity.question.Question;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,15 +21,12 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskType type;
 
-    @OneToMany
-    @JoinTable(name = "lnk_tasks_questions",
-            joinColumns = {@JoinColumn(name = "task_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "question_id", referencedColumnName = "id")}
-    )
+    @OneToMany(cascade = {CascadeType.REMOVE})
+    @JoinColumn(name = "task_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Question> questions;
 
     public Task() {
-
     }
 
     public Long getId() {
