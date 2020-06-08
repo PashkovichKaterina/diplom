@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import "./authentication.css"
 import InputElement from "./InputElement";
 import AuthenticationHeaderContainer from "./AuthenticationHeaderContainer";

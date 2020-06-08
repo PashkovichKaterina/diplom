@@ -9,7 +9,7 @@ const AdminRoute = ({component: Component, path: path}) => {
             AuthorizationLogic.isAdminLogin()
                 ? <Component {...props}/>
                 : AuthorizationLogic.isUserLogin()
-                ? RedirectLogic.redirectToAdminPanel()
+                ? RedirectLogic.redirectToTopics()
                 : RedirectLogic.redirectToLogin()
         )}/>
     );

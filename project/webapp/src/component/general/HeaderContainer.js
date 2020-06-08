@@ -20,25 +20,38 @@ class HeaderContainer extends React.PureComponent {
 
     render() {
         const {isMain} = this.props;
-        const topicElement = AuthorizationLogic.isStudentLogin() && <li><a href="/topics">Темы</a></li>;
+        const topicElement = AuthorizationLogic.isStudentLogin()
+            && <li><a href="/topics">Темы</a></li>;
         const profileElement = AuthorizationLogic.isStudentLogin() &&
-            <a className="dropdown-item" onClick={this.handleProfileRedirect}>Личный кабинет</a>;
+            <a className="dropdown-item"
+               onClick={this.handleProfileRedirect}>
+                Личный кабинет
+            </a>;
         return (
             <header
-                className={isMain ? "container-fluid d-table text-right main" : "container-fluid d-table text-right ba"}>
-                <div className="d-inline float-left site-title" onClick={this.handleMainPage}>English2C</div>
+                className={isMain ? "container-fluid d-table text-right main"
+                    : "container-fluid d-table text-right ba"}>
+                <div className="d-inline float-left site-title"
+                     onClick={this.handleMainPage}>
+                    English2C
+                </div>
                 <ul className="right-nav d-inline">
                     {topicElement}
                     <li>
                         <div className="dropdown">
-                            <button className="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                            <button className="dropdown-toggle"
+                                    id="dropdownMenuButton"
+                                    data-toggle="dropdown"
                                     aria-haspopup="true"
                                     aria-expanded="false">
                                 <FontAwesomeIcon icon={faUser}/> {AuthorizationLogic.getUserLogin()}
                             </button>
                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {profileElement}
-                                <a className="dropdown-item" onClick={this.handleLogout}>Выйти</a>
+                                <a className="dropdown-item"
+                                   onClick={this.handleLogout}>
+                                    Выйти
+                                </a>
                             </div>
                         </div>
                     </li>

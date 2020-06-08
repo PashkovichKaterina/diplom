@@ -6,7 +6,7 @@ import AdminTopicContainer from "./AdminTopicContainer";
 import TopicService from "../../service/TopicService";
 import RedirectLogic from "../../logic/RedirectLogic";
 
-class AdminPanel extends React.PureComponent {
+class AdminPanelContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {}
@@ -69,4 +69,4 @@ class AdminPanel extends React.PureComponent {
     }
 }
 
-export default AdminPanel;
+export default AdminPanelContainer;

@@ -13,8 +13,8 @@ class ScoreService {
                         'Content-Type': 'application/json',
                     }),
                     body: JSON.stringify({
-                        topic: {id: topicId},
-                        task: {id: taskId},
+                        topicId: topicId,
+                        taskId: taskId,
                         value: value
                     })
                 });

@@ -16,7 +16,7 @@ import Error404 from "../general/Error404";
 import QuestionContainer from "../question/QuestionContainer";
 import StudentFormContainer from "../authentication/StudentFormContainer";
 import AddTopicFormContainer from "../admin/add/AddTopicFormContainer";
-import AdminPanel from "../admin/AdminPanel";
+import AdminPanelContainer from "../admin/AdminPanelContainer";
 import AdminRoute from "../route/AdminRoute";
 import ResultTableContainer from "../admin/ResultTableContainer";
 
@@ -26,7 +26,7 @@ function App() {
             <Switch>
                 <AdminRoute exact component={AddTopicFormContainer} path="/topics/add"/>
                 <AdminRoute exact component={ResultTableContainer} path="/topics/:topicId"/>
-                <AdminRoute exact component={AdminPanel} path="/admin"/>
+                <AdminRoute exact component={AdminPanelContainer} path="/admin"/>
 
                 <StudentRoute exact component={StudentFormContainer} path="/users/:userId/edit"/>
                 <StudentRoute exact component={ProfileContainer} path="/users/:userId"/>
@@ -39,7 +39,6 @@ function App() {
                 <NonAuthenticationRoute exact component={MainPageContainer} path="/"/>
 
                 <Route component={Error404}/>
-
             </Switch>
         </BrowserRouter>
     );

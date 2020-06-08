@@ -65,7 +65,6 @@ class TopicsContainer extends React.PureComponent {
     };
 
     render() {
-        console.log(this.state);
         const {courseList1, courseList2, courseList3, courseList4, isMore1, isMore2, isMore3, isMore4, searchValue, searchedTopicList} = this.state;
         const courses1 = (courseList1 && courseList1.length > 0) &&
             <Course courseNumber={1}
